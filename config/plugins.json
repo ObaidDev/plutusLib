@@ -1,0 +1,24 @@
+[
+    {
+        "required": false,
+        "enabled": true,
+        "validate_message": "",
+        "item_type": 11,
+        "name": "address",
+        "configuration": {},
+        "priority": 0,
+        "type_id": 6,
+        "timezone": "UTC"
+    },
+    {
+        "required": false,
+        "enabled": true,
+        "validate_message": "",
+        "item_type": 11,
+        "name": "overspeeding",
+        "configuration": {},
+        "priority": 0,
+        "type_id": 23,
+        "timezone": "UTC"
+    }
+]

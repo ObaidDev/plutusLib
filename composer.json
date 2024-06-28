@@ -1,0 +1,27 @@
+{
+  "name": "plutus/plutus",
+  "description": "Flespi interface library",
+  "type": "library",
+  "authors": [
+      {
+          "name": "Hour Obayd",
+          "email": "abdellatif.hour.web@gmail.com",
+          "role": "Developer"
+      }
+  ],
+  "autoload": {
+      "psr-4": {
+          "Fdvice\\": "src/"
+      }
+  },
+  "repositories": [
+      {
+          "type": "vcs",
+          "url": "https://github.com/Sof-Engine-Hour/Plutus-Flespi"
+      }
+  ],
+  "require": {
+      "php": "^8.3.7"
+  },
+  "license": "MIT"
+}

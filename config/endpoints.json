@@ -1,0 +1,44 @@
+[
+    {
+        "endpoints":[
+            {
+                "name":"limit",
+                "url":"https://flespi.io/platform/limits",
+                "description":"limit url where we can add limits"
+            } ,
+            {
+                "name" : "token" ,
+                "url":"https://flespi.io/platform/tokens",
+                "description":"somthing here ..."
+
+            },
+            {
+                "name" : "device" ,
+                "url":"https://flespi.io/gw/devices",
+                "description":"Nothing to write. I am so busy"
+            },
+            {
+                "name":"subaccount" ,
+                "url":"https://flespi.io/platform/subaccounts" ,
+                "description":"nothig ..."
+            },
+
+            {
+                "name":"calcs" ,
+                "url":"https://flespi.io/gw/calcs" ,
+                "description":"nothig ..."
+            },
+            {
+                "name":"plugin" ,
+                "url":"https://flespi.io/gw/plugins" ,
+                "description":"nothig ..."
+            },
+
+            {
+                "name":"grant" ,
+                "url":"https://flespi.io/platform/grants" ,
+                "description":"nothig ..."
+            }
+        ]
+    }
+]

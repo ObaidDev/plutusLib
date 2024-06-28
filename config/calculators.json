@@ -1,0 +1,438 @@
+[    
+    
+    {
+      "intervals_ttl": 31536000,
+      "update_delay": 30,
+      "update_period": 7776000,
+      "update_onchange": true,
+      "messages_source": {
+        "source": "device"
+      },
+      "validate_message": "",
+      "validate_interval": "",
+      "name": "trips",
+      "selectors": [
+        {
+          "expression": "$position.speed>0 || $engine.ignition.status || $segment.vehicle.mileage>0",
+          "max_inactive": 120,
+          "max_messages_time_diff": 300,
+          "merge_message_after": true,
+          "merge_message_before": true,
+          "merge_unknown": true,
+          "method": "boolean",
+          "min_duration": 60,
+          "type": "expression"
+        }
+      ],
+      "intervals_rotate": 0,
+      "counters": [
+        {
+          "expression": "position.speed",
+          "method": "maximum",
+          "name": "max_speed",
+          "type": "expression"
+        },
+        {
+          "expression": "mileage()",
+          "method": "summary",
+          "name": "distance",
+          "type": "expression"
+        },
+        {
+          "expression": "segment.vehicle.mileage",
+          "method": "summary",
+          "name": "distance_can",
+          "type": "expression"
+        },
+        {
+          "name": "route",
+          "type": "route"
+        },
+        {
+          "expression": "(distance*3600)/duration",
+          "name": "avg_speed",
+          "type": "interval"
+        },
+        {
+          "method": "first",
+          "name": "position_satellites",
+          "parameter": "position.satellites",
+          "type": "parameter"
+        },
+        {
+          "method": "first",
+          "name": "fuel_volume",
+          "parameter": "can.fuel.volume",
+          "type": "parameter"
+        },
+        {
+          "method": "first",
+          "name": "device_id",
+          "parameter": "device.id",
+          "type": "parameter"
+        },
+        {
+          "method": "first",
+          "name": "engine_rpm",
+          "parameter": "protocol.id",
+          "type": "parameter"
+        },
+        {
+          "expression": "duration - stop_duration.duration",
+          "method": "first",
+          "name": "idl_time",
+          "type": "expression"
+        },
+        {
+          "method": "each",
+          "name": "overspeeding",
+          "parameter": "overspeeding.speed",
+          "type": "parameter"
+        },
+        {
+          "method": "each",
+          "name": "overspeedingStatus",
+          "parameter": "overspeeding.status",
+          "type": "parameter"
+        },
+        {
+          "method": "last",
+          "name": "last_address",
+          "parameter": "wialon.address",
+          "type": "parameter"
+        },
+        {
+          "method": "first",
+          "name": "vehicle_mileage",
+          "parameter": "vehicle.mileage",
+          "type": "parameter"
+        },
+        {
+          "method": "first",
+          "name": "tracker_counted_mileage",
+          "parameter": "can.tracker.counted.mileage",
+          "type": "parameter"
+        },
+        {
+          "method": "first",
+          "name": "can_tracker_counted_fuel_consumed",
+          "parameter": "can.tracker.counted.fuel.consumed",
+          "type": "parameter"
+        },
+        {
+          "method": "first",
+          "name": "can_fuel_consumed",
+          "parameter": "can.fuel.consumed",
+          "type": "parameter"
+        },
+        {
+          "method": "first",
+          "name": "first_address",
+          "parameter": "wialon.address",
+          "type": "parameter"
+        },
+        {
+          "method": "first",
+          "name": "start_odom",
+          "parameter": "vehicle.mileage",
+          "type": "parameter"
+        },
+        {
+          "fields": [
+            {
+              "name": "latitude",
+              "value": "position.latitude"
+            },
+            {
+              "name": "longitude",
+              "value": "position.longitude"
+            },
+            {
+              "name": "direction",
+              "value": "position.direction"
+            }
+          ],
+          "name": "position_dataset",
+          "type": "dataset"
+        }
+      ],
+      "timezone": "UTC",
+      "metadata": {}
+    },
+
+    {
+        "intervals_ttl": 31536000,
+        "update_delay": 10,
+        "update_period": 31536000,
+        "update_onchange": true,
+        "messages_source": {
+          "source": "device"
+        },
+        "validate_message": "position.speed",
+        "validate_interval": "",
+        "name": "stops",
+        "selectors": [
+          {
+            "expression": "position.speed<5 && engine.ignition.status == false",
+            "method": "boolean",
+            "min_active": 1,
+            "min_duration": 60,
+            "type": "expression"
+          }
+        ],
+        "intervals_rotate": 0,
+        "counters": [
+          {
+            "name": "route",
+            "type": "route"
+          },
+          {
+            "method": "first",
+            "name": "device_id",
+            "parameter": "device.id",
+            "type": "parameter"
+          },
+          {
+            "method": "first",
+            "name": "reportid",
+            "parameter": "origin.id",
+            "type": "parameter"
+          },
+          {
+            "method": "first",
+            "name": "device__id",
+            "parameter": "device.id",
+            "type": "parameter"
+          },
+          {
+            "method": "first",
+            "name": "address",
+            "parameter": "wialon.address",
+            "type": "parameter"
+          },
+          {
+            "method": "first",
+            "name": "engine.ignition",
+            "parameter": "engine.ignition.status",
+            "type": "parameter"
+          }
+        ],
+        "timezone": "UTC"
+    },
+
+    {
+      "intervals_ttl": 31536000,
+      "update_delay": 10,
+      "update_period": 86400,
+      "update_onchange": true,
+      "messages_source": {
+        "source": "device"
+      },
+      "validate_message": "position.speed>5",
+      "validate_interval": "",
+      "name": "Daily + total milleage with route",
+      "selectors": [
+        {
+          "expression": "position.speed>5",
+          "max_inactive": 180,
+          "method": "boolean",
+          "type": "expression"
+        },
+        {
+          "split": "day",
+          "type": "datetime"
+        }
+      ],
+      "intervals_rotate": 0,
+      "counters": [
+        {
+          "name": "route",
+          "type": "route"
+        },
+        {
+          "expression": "mileage()",
+          "method": "summary",
+          "name": "mileage",
+          "type": "expression"
+        },
+        {
+          "counter": "mileage",
+          "name": "daily_mileage",
+          "reset_interval": "day",
+          "type": "accumulator"
+        },
+        {
+          "counter": "mileage",
+          "name": "total_mileage",
+          "type": "accumulator"
+        },
+        {
+          "expression": "position.speed",
+          "method": "maximum",
+          "name": "max_speed",
+          "type": "expression"
+        },
+        {
+          "expression": "position.speed",
+          "method": "average",
+          "name": "avg_speed",
+          "type": "expression"
+        },
+        {
+          "method": "first",
+          "name": "fuel_volume",
+          "parameter": "can.fuel.volume",
+          "type": "parameter"
+        },
+        {
+          "method": "first",
+          "name": "device_id",
+          "parameter": "device.id",
+          "type": "parameter"
+        },
+        {
+          "method": "first",
+          "name": "start_odom",
+          "parameter": "vehicle.mileage",
+          "type": "parameter"
+        }
+      ],
+      "timezone": "Europe/London",
+      "metadata": {}
+    },
+
+    {
+        "intervals_ttl": 31536000,
+        "update_delay": 1,
+        "update_period": 86400,
+        "update_onchange": false,
+        "messages_source": {
+          "source": "device"
+        },
+        "validate_message": "can.fuel.volume",
+        "validate_interval": "fuel.delta>3",
+        "name": "refuel",
+        "selectors": [
+          {
+            "expression": "#can.fuel.volume<can.fuel.volume",
+            "max_inactive": 90,
+            "max_messages_time_diff": 1800,
+            "merge_message_before": true,
+            "method": "boolean",
+            "min_duration": 30,
+            "name": "fuel increased",
+            "type": "expression"
+          }
+        ],
+        "intervals_rotate": 0,
+        "counters": [
+          {
+            "method": "first",
+            "name": "fuel.before",
+            "parameter": "can.fuel.volume",
+            "type": "parameter"
+          },
+          {
+            "method": "last",
+            "name": "fuel.after",
+            "parameter": "can.fuel.volume",
+            "type": "parameter"
+          },
+          {
+            "expression": "fuel.after-fuel.before",
+            "name": "fuel.delta",
+            "type": "interval"
+          },
+          {
+            "method": "first",
+            "name": "position.latitude",
+            "type": "parameter"
+          },
+          {
+            "method": "first",
+            "name": "position.longitude",
+            "type": "parameter"
+          },
+          {
+            "method": "first",
+            "name": "can.vehicle.mileage",
+            "type": "parameter"
+          },
+          {
+            "method": "first",
+            "name": "device_id",
+            "parameter": "device.id",
+            "type": "parameter"
+          },
+          {
+            "name": "route",
+            "type": "route"
+          }
+        ],
+        "timezone": "UTC"
+    },
+    
+    {
+      "intervals_ttl": 31536000,
+      "update_delay": 10,
+      "update_period": 31536000,
+      "update_onchange": true,
+      "messages_source": {
+        "source": "device"
+      },
+      "validate_message": "exists(\"position.speed\")",
+      "validate_interval": "",
+      "name": "idl detector",
+      "selectors": [
+        {
+          "expression": "position.speed<5 && engine.ignition.status == true",
+          "max_inactive": 10,
+          "method": "boolean",
+          "min_active": 1,
+          "min_duration": 60,
+          "type": "expression"
+        }
+      ],
+      "intervals_rotate": 0,
+      "counters": [
+        {
+          "name": "route",
+          "type": "route"
+        },
+        {
+          "method": "first",
+          "name": "device_id",
+          "parameter": "device.id",
+          "type": "parameter"
+        },
+        {
+          "method": "first",
+          "name": "reportid",
+          "parameter": "origin.id",
+          "type": "parameter"
+        },
+        {
+          "method": "first",
+          "name": "device__id",
+          "parameter": "device.id",
+          "type": "parameter"
+        },
+        {
+          "method": "first",
+          "name": "address",
+          "parameter": "wialon.address",
+          "type": "parameter"
+        },
+        {
+          "method": "first",
+          "name": "engine.ignition",
+          "parameter": "engine.ignition.status",
+          "type": "parameter"
+        }
+      ],
+      "timezone": "UTC",
+      "metadata": {
+        "message": ""
+      }
+    }
+]
