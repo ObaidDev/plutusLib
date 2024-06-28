@@ -1,5 +1,5 @@
 {
-  "name": "plutusConnector/plutusConnector",
+  "name": "plutus-connector/plutus-connector",
   "description": "Flespi interface library",
   "type": "library",
   "authors": [
