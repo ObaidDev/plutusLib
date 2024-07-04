@@ -114,6 +114,8 @@ class DeviceDto {
 
     public function setIds($ids) {
         $this->ids = $ids;
+
+        return $this ;
     }
 
 

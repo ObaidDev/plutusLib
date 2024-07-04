@@ -17,5 +17,18 @@ final class Grant implements GrantInterface
         return $response ;
         
     }
+
+    function deleteGrant(GrantDto $grantDto , $userToken) : array{
+        $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "grant") ;
+        $url = $url ."/".join("," , $grantDto->getIds()) ;
+        // var_dump($url);
+        // die() ;
+        $curl = CurlHelper::delete($url  ,$userToken);
+        $response = CurlHelper::excuteCurl($curl);
+
+
+        return $response ;
+    }
+
     
 }

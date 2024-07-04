@@ -144,13 +144,13 @@ final class CalculateInterval  implements CalculateIntervalInterface
             } catch (\Throwable $th) {
               if(array_key_exists("min" , $filter_List["mileage"]) )
               {
-                $min = $filter_List["mileage"]["min"] * 60 ;
-                $min = str_replace("X" , $min , "mileage >= X") ;
+                $min = $filter_List["mileage"]["min"] ;
+                $min = str_replace("X" , $min , "distance >= X") ;
                 $mileage = "if( ".$min ." , true , error() )" ;
               }
               else {
-                $max = $filter_List["mileage"]["max"] * 60 ;
-                $max = str_replace("X" , $max , "mileage <= X") ;
+                $max = $filter_List["mileage"]["max"] ;
+                $max = str_replace("X" , $max , "distance <= X") ;
                 $mileage = "if( ".$max ." , true , error() )" ;
 
               }
@@ -196,6 +196,86 @@ final class CalculateInterval  implements CalculateIntervalInterface
           }
           array_push($filters  , $qte) ;
         break;
+
+        case 'early_end':
+          # code...
+          try {
+            $early_end = $filter_List["early_end"];
+            $qte = "if( "."end < ".$early_end." , true , error() )" ;
+
+          } catch (\Throwable $th) {
+            
+          }
+          array_push($filters  , $qte) ;
+        break;
+        
+        //? we used it to give the user the poisblite to get the unauthorized use of the vehicls for a given date range and given time range . 
+        case 'timer':
+          # code...
+          try {
+            $timer1 = $filter_List["timer"]["timer1"];
+            $timer2 = $filter_List["timer"]["timer2"];
+
+            // !if((start_hour >= A_hour && start_minute >= A_minute) && (end_hour >= B_hour && end_minute >= B_minute))
+            
+            // $qte = "if( "."(start_hour >= ".$timer1["start_hour"]
+            // ."&&"."start_minute >= ".$timer1["start_minute"].
+            // ") || (end_hour <= ".$timer2["end_hour"]."&& end_minute <= ".$timer2["end_minute"].")".
+            // " , true , error() )" ;
+
+            // $start_hour >= X && $start_hour < Y && ($start_hour != X || $start_minute >= Z)
+            $tim1 = "(start_hour >= ".$timer1["start_hour"]
+            ." && "."start_hour < ".$timer2["end_hour"]
+            ." && ("."start_hour !=".$timer1["start_hour"].
+            " || start_minute > ".$timer1["start_minute"]
+            ."))" ;
+
+            $tim2 = "(end_hour <= ".$timer2["end_hour"]
+            ." && "."end_hour > ".$timer1["start_hour"]." && ("."end_hour !=".$timer2["end_hour"].
+            " || end_minute < ".$timer2["end_minute"]
+            ."))" ;
+
+            $qte = "if( ". $tim1." || ".$tim2 .", true , error())" ;
+            // $qte = "if( ". $tim1 .", true , error())" ;
+
+            // $qte = "hello" ;
+
+          } catch (\Throwable $th) {
+
+            if (array_key_exists("timer1" , $filter_List["timer"])) {
+              # code...
+              $timer1 = $filter_List["timer"]["timer1"];
+              $tim = "(start_hour >= ".$timer1["start_hour"]
+              ." && ("."start_hour !=".$timer1["start_hour"].
+              " || start_minute > ".$timer1["start_minute"]
+              ."))" ;
+            }
+
+            else {
+              $timer2 = $filter_List["timer"]["timer2"];
+              $tim = "(end_hour <= ".$timer2["end_hour"]
+              ." && ("."end_hour !=".$timer2["end_hour"].
+              " || end_minute < ".$timer2["end_minute"]
+              ."))" ;
+            }
+            $qte = "if( ". $tim .", true , error())" ;
+            
+          }
+          array_push($filters  , $qte) ;
+        break;
+
+        // case 'end_hour':
+        //   # code...
+        //   try {
+        //     $end_hour = $filter_List["end_hour"];
+        //     $qte = "if( "."end_hour <= ".$end_hour." , true , error() )" ;
+
+        //   } catch (\Throwable $th) {
+            
+        //   }
+        //   array_push($filters  , $qte) ;
+        // break;
+
         default:
 
         break;
@@ -203,6 +283,9 @@ final class CalculateInterval  implements CalculateIntervalInterface
     }
 
     $filter = implode(" && " , $filters);
+
+    // var_dump($filter) ;
+    // die();
     return $filter ;
 
   }

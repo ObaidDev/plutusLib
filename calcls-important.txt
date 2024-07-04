@@ -150,6 +150,30 @@ trip :
         {
           "name": "direction",
           "value": "position.direction"
+        },
+        {
+          "name": "address",
+          "value": "wialon.address"
+        },
+        {
+          "name": "rpm",
+          "value": "can.engine.rpm"
+        },
+        {
+          "name": "speed",
+          "value": "position.speed"
+        },
+        {
+          "name": "voltage",
+          "value": "battery.voltage"
+        },
+        {
+          "name": "fuel_volume",
+          "value": "can.fuel.volume"
+        },
+        {
+          "name": "satellites",
+          "value": "position.satellites"
         }
       ],
       "name": "position_dataset",
@@ -160,10 +184,56 @@ trip :
       "name": "engine_temp",
       "parameter": "can.engine.temperature",
       "type": "parameter"
+    },
+    {
+      "expression": "can.fuel.volume",
+      "method": "difference",
+      "name": "fuel_used",
+      "type": "expression"
+    },
+    {
+      "expression": "(fuel_used * distance) / (-100)",
+      "name": "fuel_per_100km",
+      "type": "interval"
+    },
+    {
+      "expression": "can.fuel.volume",
+      "method": "first",
+      "name": "fuel_start",
+      "type": "expression"
+    },
+    {
+      "expression": "can.fuel.volume",
+      "method": "last",
+      "name": "fuel_end",
+      "type": "expression"
+    },
+    {
+      "expression": "hour($timestamp)",
+      "method": "first",
+      "name": "start_hour",
+      "type": "expression"
+    },
+    {
+      "expression": "hour($timestamp)",
+      "method": "last",
+      "name": "end_hour",
+      "type": "expression"
+    },
+    {
+      "expression": "minute($timestamp)",
+      "method": "first",
+      "name": "start_minute",
+      "type": "expression"
+    },
+    {
+      "expression": "minute($timestamp)",
+      "method": "last",
+      "name": "end_minute",
+      "type": "expression"
     }
   ],
-  "timezone": "UTC",
-  "metadata": {}
+  "timezone": "Africa/Casablanca"
 }
 
 stop : 
@@ -213,8 +283,7 @@ stop :
       "type": "parameter"
     }
   ],
-  "timezone": "UTC",
-  "metadata": {}
+  "timezone": "UTC"
 }
 
 
@@ -286,8 +355,7 @@ daily total milleage :
       "type": "expression"
     }
   ],
-  "timezone": "Africa/Casablanca",
-  "metadata": {}
+  "timezone": "Africa/Casablanca"
 }
 
 
@@ -427,8 +495,7 @@ over-speeding :
       "type": "parameter"
     }
   ],
-  "timezone": "UTC",
-  "metadata": {}
+  "timezone": "UTC"
 }
 
 
@@ -630,4 +697,102 @@ inactive :
   ],
   "timezone": "UTC",
   "metadata": {}
+}
+
+decrease:
+{
+  "intervals_ttl": 31536000,
+  "update_delay": 30,
+  "update_period": 864000,
+  "update_onchange": true,
+  "messages_source": {
+    "source": "device"
+  },
+  "validate_message": "",
+  "validate_interval": "",
+  "name": "decrease",
+  "selectors": [
+    {
+      "expression": "#can.fuel.volume>=$can.fuel.volume",
+      "max_messages_time_diff": 600,
+      "merge_message_after": true,
+      "merge_message_before": true,
+      "method": "boolean",
+      "min_duration": 60,
+      "type": "expression"
+    }
+  ],
+  "intervals_rotate": 0,
+  "counters": [
+    {
+      "expression": "mileage()",
+      "method": "summary",
+      "name": "distance",
+      "type": "expression"
+    },
+    {
+      "expression": "(fuel_used * distance) / (-100)",
+      "name": "fuel_per_100km",
+      "type": "interval"
+    },
+    {
+      "expression": "can.fuel.volume",
+      "method": "first",
+      "name": "fuel_start",
+      "type": "expression"
+    },
+    {
+      "expression": "can.fuel.volume",
+      "method": "last",
+      "name": "fuel_end",
+      "type": "expression"
+    },
+    {
+      "expression": "if(fuel_is_increased == 1 , fuel_end - fuel_start , 0)",
+      "name": "refuel_amount",
+      "type": "interval"
+    },
+    {
+      "method": "first",
+      "name": "device_id",
+      "parameter": "device.id",
+      "type": "parameter"
+    },
+    {
+      "method": "first",
+      "name": "start_odom",
+      "parameter": "vehicle.mileage",
+      "type": "parameter"
+    },
+    {
+      "method": "last",
+      "name": "end_odom",
+      "parameter": "vehicle.mileage",
+      "type": "parameter"
+    },
+    {
+      "expression": "if(fuel_end < fuel_start  , fuel_start  - fuel_end , 0)",
+      "name": "fuel_used",
+      "type": "interval"
+    },
+    {
+      "method": "first",
+      "name": "ignition",
+      "parameter": "engine.ignition.status",
+      "type": "parameter"
+    },
+    {
+      "method": "first",
+      "name": "movement",
+      "parameter": "movement.status",
+      "type": "parameter"
+    },
+    {
+      "method": "first",
+      "name": "address",
+      "parameter": "wialon.address",
+      "type": "parameter"
+    }
+  ],
+  "timezone": "UTC"
 }

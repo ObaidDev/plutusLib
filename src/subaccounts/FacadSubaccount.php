@@ -286,6 +286,11 @@ final class FacadSubaccount
         
     }
 
+    function deleteGrant(GrantDto $grantDto , $userToken) : array {
+        $res = self::$grant->deleteGrant($grantDto , $userToken) ;
+        return $res ;
+    }
+
 
     
 }

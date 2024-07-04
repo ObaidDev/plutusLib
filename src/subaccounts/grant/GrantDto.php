@@ -12,9 +12,12 @@ class GrantDto
     private $gid ;
 
 
-    public function __construct() {
+    private function __construct() {
     }
 
+    static function emptyConstruct(){
+        return (new GrantDto());
+    }
 
     public static function create($type , $ids , $gid) {
         return (new GrantDto)->setType($type)->setIds($ids)->setGid($gid) ;

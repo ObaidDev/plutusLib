@@ -11,6 +11,10 @@ use Fdvice\device\manage\DeviceInterface;
 use Fdvice\device\manage\Device;
 use Fdvice\device\manage\DeviceDto;
 
+use Fdvice\device\calcs\RestCalcsInterface ;
+use Fdvice\device\calcs\RestCalcs ;
+use Fdvice\device\calcs\SelectorsInterface ;
+
 // require_once base_path()."/config/config-flespi.php" ;
 // require_once "./config/config-exemple.php" ;
 
@@ -26,12 +30,14 @@ class FacadeDevice {
     private static DeviceInterface $device;
     // private SettingInterface $settings;
     private static ChannelInterface $channel ;
+    private static RestCalcsInterface $dirctlyRestCalcs ;
 
     function __construct()
     {
         self::$device =  new Device() ;
         // $this->settings =  new Setting() ;
         self::$channel = new Channel();
+        self::$dirctlyRestCalcs = new RestCalcs();
     }
     public function setDevice($device){
         self::$device = $device;
@@ -127,6 +133,11 @@ class FacadeDevice {
 
     function getSettingsinfo($dataQuery, $Usertoken):array{
         $res = $this->settings->getSettingsinfo($dataQuery , $GLOBALS["Token"]);
+        return $res ;
+    }
+
+    function dirctlyExcuteReport (DeviceDto $deviceDto , SelectorsInterface $selector , $userToken) : array {
+        $res = self::$dirctlyRestCalcs->dirctlyExcuteReport($deviceDto , $selector ,$userToken) ;
         return $res ;
     }
 }
