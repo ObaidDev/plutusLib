@@ -49,4 +49,19 @@ final class Plugin implements PluginInterface
 
         return [] ;
     }
+
+    public function getPlugins(PluginDto $pluginsDto ,$userToken) : array{
+
+        $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "plugin") ;
+        $url = $url . ($pluginsDto->getIds() != null ? join("," , $pluginsDto->getIds()) : "/all").
+                "?fields=".($pluginsDto->getFields() != null ? join("," , $pluginsDto->getFields()) : "") ;
+
+        // var_dump($url) ;
+        // die() ;
+        $curl = CurlHelper::get($url , $userToken) ;
+        
+        $response = CurlHelper::excuteCurl($curl);
+
+        return $response ;
+    }
 }

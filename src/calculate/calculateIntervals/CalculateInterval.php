@@ -3,8 +3,7 @@
 
 namespace Fdvice\calculate\calculateIntervals ;
 
-
-
+use Exception;
 use Fdvice\calculate\calculateIntervals\CalculateIntervalInterface;
 use Fdvice\CurlHelper ;
 
@@ -17,19 +16,21 @@ final class CalculateInterval  implements CalculateIntervalInterface
       $calcDeviceIntervalsSelector  = [] ;
       $calcDevicesSelector  = $dataQuery["calc.devices"] ;
       $filter  = $dataQuery["data"] ;
-
-
+      $filter["fields"] = array_key_exists("fields" ,$dataQuery) ? join("," ,$dataQuery["fields"]):"" ;
+      // $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "calcs") ;
       $url = "https://flespi.io/gw/calcs/".($calcsSelector != null ?join(",",$calcsSelector) : "all")
       ."/devices/".($calcDevicesSelector != null ?join(",",$calcDevicesSelector) : "all")
       ."/intervals/".($calcDeviceIntervalsSelector != null ?join(",",$calcDeviceIntervalsSelector) : "all")
       ."?data=".urlencode(json_encode($filter));
 
       
+      // var_dump($url) ;
+      // die() ;
       $curl = CurlHelper::get($url , $credentials);
       $response = CurlHelper::excuteCurl($curl) ;
 
-
-
+      // var_dump($response) ;
+      // die() ;
       return $response ;
       // return [$url] ;
   }
@@ -263,6 +264,23 @@ final class CalculateInterval  implements CalculateIntervalInterface
           }
           array_push($filters  , $qte) ;
         break;
+
+        case 'geofence_name':
+          # code...
+          try {
+            $geofence_name = $filter_List["geofence_name"];
+            $geofence_name = 'geofence_name == "'.$geofence_name.'"' ;
+            $qte = "if( ". $geofence_name.", true , error())" ;
+
+
+          } catch (\Throwable $th) {
+            
+            return new Exception($th->getMessage()) ;
+          }
+          array_push($filters  , $qte) ;
+        break;
+
+
 
         // case 'end_hour':
         //   # code...

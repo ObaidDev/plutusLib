@@ -33,10 +33,10 @@ final class ErrorMiddleware extends BaseHandler
 
 
                 
-                default:
-                    # code...
-                    return throw new \Exception($request["errors"][0]["reason"]) ;
-                    break;
+                // default:
+                //     # code...
+                //     return throw new \Exception($request["errors"][0]["reason"]) ;
+                //     break;
             }
             
         }

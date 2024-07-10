@@ -10,10 +10,10 @@ use Fdvice\CurlHelper ;
 
 final class Passwd  implements PasswdInterface
 {
-    function updatePasswd($passwdDto , $credentials) : array {
+    function updatePasswd($passwdDto ,$subaccountId, $credentials) : array {
 
         $url="https://flespi.io/auth/password";
-        $curl =  CurlHelper::put($url , $passwdDto() , $credentials) ;
+        $curl =  CurlHelper::putAdditionalHeader($url , $passwdDto(), ["x-flespi-cid"=>$subaccountId] , $credentials) ;
         $response = CurlHelper::excuteCurl($curl);
         
         return $response ; 

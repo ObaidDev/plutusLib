@@ -120,6 +120,14 @@ class SubaccountDto {
         return $data ;
     }
 
+    public function loginPasswdLessData() : array {
+        $data = [
+            'email' => $this->getEmail()
+        ];
+
+        return $data ;
+    }
+
     // public function token() : Returntype {
         
     // }

@@ -4,5 +4,5 @@ namespace Fdvice\auth\passwd ;
 
 interface PasswdInterface {
 
-    function updatePasswd($dataQuery , $credentials) : array;
+    function updatePasswd($dataQuery,$subaccountId , $credentials) : array;
 }

@@ -24,6 +24,23 @@ final class Subaccount  implements SubaccountInterface
 
     }
 
+
+    public function loginPasswdLess(SubaccountDto $subaccount) : array{
+
+        // $url = "https://flespi.io/auth/login/credentials" ;
+        $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "auth") ;
+        $url = $url ."/login/passwordless" ;
+
+        // var_dump($url) ;
+        // die() ;
+
+        $curl = CurlHelper::post($url , $subaccount->loginPasswdLessData() , null);
+        $response = CurlHelper::excuteCurl($curl);
+
+        return $response ;
+        return [] ;
+    }
+
     // public function changePasswd($passwd , $credentials)  {
 
     //     $in_data = ["password"=>$passwd , "confirmation"=>$passwd] ;

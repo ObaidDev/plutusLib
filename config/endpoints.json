@@ -33,12 +33,28 @@
                 "url":"https://flespi.io/gw/plugins" ,
                 "description":"nothig ..."
             },
-
+            
             {
                 "name":"grant" ,
                 "url":"https://flespi.io/platform/grants" ,
                 "description":"nothig ..."
+            },
+            {
+                "name":"geofence" ,
+                "url":"https://flespi.io/gw/geofences" ,
+                "description":"nothig ..."
+            },
+            {
+                "name":"calcs" ,
+                "url":"https://flespi.io/gw/calcs" ,
+                "description":"nothig ..."
+            },
+            {
+                "name":"auth" ,
+                "url":"https://flespi.io/auth" ,
+                "description":"nothig ..."
             }
+
         ]
     }
 ]

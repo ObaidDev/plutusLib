@@ -167,6 +167,39 @@ final class CurlHelper
         return $curl ;
     }
 
+    static function putAdditionalHeader($url , $in_data , $additional_headers ,$credentials)  {
+        $curl = curl_init();
+
+        $default_headers = [
+            "Authorization: " . $credentials,
+            "Content-Type: application/json",
+            "Accept: */*" ,
+            
+        ];
+
+        {
+            if ($additional_headers != null) {
+                $headers = array_merge($default_headers, $additional_headers);
+                // var_dump($headers) ;
+            }
+            else {
+                $headers = $default_headers ;
+
+            }
+        }
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_CUSTOMREQUEST => "PUT",
+            CURLOPT_POSTFIELDS => json_encode($in_data, JSON_PRETTY_PRINT),
+            CURLOPT_HTTPHEADER => $headers ,
+        ]);
+
+        return $curl ;
+    }
 
     static function loadDataJson($path) :array {
         $jsonString = file_get_contents($path);

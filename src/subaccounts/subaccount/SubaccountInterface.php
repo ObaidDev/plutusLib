@@ -11,6 +11,9 @@ interface SubaccountInterface {
 
     public function createToken($in_data ,$subaccountId , $credentials):array;
     public function loginEmailPasswd(SubaccountDto $subaccount):array;
+    // loginPasswdLess
+    public function loginPasswdLess(SubaccountDto $subaccount) :array;
+
 
     // change the passwd .
     // public function changePasswd($passwd , $credentials) ;

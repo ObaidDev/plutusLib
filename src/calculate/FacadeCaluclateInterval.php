@@ -34,10 +34,14 @@ final class FacadeCaluclateInterval
         
         if (!$is_last) {
             $filter = FacadeCaluclateInterval::buildFilter($data_in);
-    
+            
             $data_in["data"]["filter"] = $filter ;
+            // $data_in["data"]["fields"] = $filter ;
+            // var_dump($data_in);
+            // die() ;
             $data_in["calcs"]= $data_in["report"] ;
             $data_in["calc.devices"] = $data_in["units"] ;
+
     
             $res = self::$calculateInterval->getIntervalesOfDevice($data_in , $userToken);
             return $res ;

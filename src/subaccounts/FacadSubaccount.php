@@ -130,48 +130,53 @@ final class FacadSubaccount
 
         }
 
-        // //? create a realm for this Reseller 
-        // {
-        //     $tokenDto = new TokenDto(1) ;
-        //     $realmDto = new RealmDto(
-        //         $subaccount->getName()."-Realm" ,
-        //         2,
-        //         $tokenDto
-        //     );
-        //     $realmResult = self::$realm->addRealm([$realmDto] , $key) ;
-
-        // }
-
-        //! create the 0device limit . 
-        {
-            $limit1 = LimitDto::create(0) ;
-            $limitRes = self::$limit->addLimit([$limit1] , $key) ;
-        }
-
-
-        //!create reportes . 
+        
+        
+        //? create reportes . we can gona comment it for this moment because we reached out the number of calcs 
         {
             $jsonString = file_get_contents(__DIR__."/../../config/calculators.json");
             $reportesRes = self::$caluctor->addCalculators(json_decode($jsonString, true) , $key) ;
         }
-        // { 
+        
+        //! trash !
+        {
+            // { 
             // var_dump($subaccountId) ;
-
+            
             //! $token = self::$subaccount->createToken($token_data , 
             //! $subaccountId , $GLOBALS["Token"]
             //!! ) ;
             //! $tokenDto = new TokenDto(0) ;
-        // }
+            // }
+            
+            
+            // var_dump("toke_error" . array_key_exists('errors', $token)) ;
+            //? $res["realm"] = $realmResult["result"][0] ;
+            
+            
+            // //? create a realm for this Reseller 
+            // {
+            //     $tokenDto = new TokenDto(1) ;
+            //     $realmDto = new RealmDto(
+            //         $subaccount->getName()."-Realm" ,
+            //         2,
+            //         $tokenDto
+            //     );
+            //     $realmResult = self::$realm->addRealm([$realmDto] , $key) ;
 
+            // }
 
-        // var_dump("toke_error" . array_key_exists('errors', $token)) ;
-        //? $res["realm"] = $realmResult["result"][0] ;
-
+            // ! create the 0device limit .  just remove this part
+            // {
+            //     $limit1 = LimitDto::create(0) ;
+            //     $limitRes = self::$limit->addLimit([$limit1] , $key) ;
+            // }
+        }
 
         $res["subaccount"] = $subaccountResp["result"][0] ;
         $res["token"] = $token["result"][0] ;
-        $res["limit"] = $limitRes["result"][0] ;
         $res["reporte"] = $reportesRes["result"] ;
+        // $res["limit"] = $limitRes["result"][0] ;
 
 
         // var_dump("passwd is :" . $subaccount->getPasswd()) ;
@@ -198,7 +203,7 @@ final class FacadSubaccount
         //? CREATE THE TOKEN .
         { 
             // $tokenName = $subaccount->getName()."-Token";
-            $subaccountToken = new TokenDto(1) ;
+            $subaccountToken = new TokenDto(0) ;
             // $tokenName."-Master"
             $subaccountToken->setInfo($subaccount->getName()."-Token"."-Company") ;
 
@@ -222,8 +227,9 @@ final class FacadSubaccount
         //? change the password so we can use it
         {
             $passwdDto = new PasswdDto($subaccount->getPasswd()) ;
-            $key = "FlespiToken ".$token["result"][0]["key"] ;
-            self::$passwd->updatePasswd($passwdDto, $key);
+            // $key = "FlespiToken ".$token["result"][0]["key"] ;
+            // self::$passwd->updatePasswd($passwdDto, $key);
+            self::$passwd->updatePasswd($passwdDto , $subaccountId, $userToken);
         }
 
         // //? CREATE A REALM FOR COMPANY 
@@ -269,6 +275,11 @@ final class FacadSubaccount
 
     public function loginEmailPasswd(SubaccountDto $subaccount) : array {
         $res = self::$subaccount->loginEmailPasswd($subaccount) ;
+        return $res ;
+    }
+
+    public function loginPasswdLess(SubaccountDto $subaccount) : array {
+        $res = self::$subaccount->loginPasswdLess($subaccount) ;
         return $res ;
     }
 

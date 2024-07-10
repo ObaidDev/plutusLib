@@ -17,6 +17,7 @@ final class PluginDto
     private $type_id ;
     private $timezone = "UTC" ;
     private $cid = null ;
+    private $fields  = null ;
 
     // ids instead of id because whene we need the id we need a list of it not just one id .
     private $ids ;
@@ -159,6 +160,17 @@ final class PluginDto
     public function setCid($cid): void
     {
         $this->cid = $cid;
+    }
+
+
+    public function getFields ()
+    {
+        return $this->fields;
+    }
+
+    public function setFields($fields): void
+    {
+        $this->fields = $fields;
     }
 
 

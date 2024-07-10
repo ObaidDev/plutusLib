@@ -60,4 +60,10 @@ final class FacadePlugin
         $res = self::$assign->assignDevice($pluginDto ,$deviceDto,$userToken) ;
         return $res ;
     }
+
+    function getPlugins(PluginDto $pluginsDto ,$userToken) : array {
+        
+        $res = self::$plugin->getPlugins($pluginsDto ,$userToken) ;
+        return $res ;
+    }
 }

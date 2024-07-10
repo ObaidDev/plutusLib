@@ -138,54 +138,6 @@ trip :
       "type": "parameter"
     },
     {
-      "fields": [
-        {
-          "name": "latitude",
-          "value": "position.latitude"
-        },
-        {
-          "name": "longitude",
-          "value": "position.longitude"
-        },
-        {
-          "name": "direction",
-          "value": "position.direction"
-        },
-        {
-          "name": "address",
-          "value": "wialon.address"
-        },
-        {
-          "name": "rpm",
-          "value": "can.engine.rpm"
-        },
-        {
-          "name": "speed",
-          "value": "position.speed"
-        },
-        {
-          "name": "voltage",
-          "value": "battery.voltage"
-        },
-        {
-          "name": "fuel_volume",
-          "value": "can.fuel.volume"
-        },
-        {
-          "name": "satellites",
-          "value": "position.satellites"
-        }
-      ],
-      "name": "position_dataset",
-      "type": "dataset"
-    },
-    {
-      "method": "first",
-      "name": "engine_temp",
-      "parameter": "can.engine.temperature",
-      "type": "parameter"
-    },
-    {
       "expression": "can.fuel.volume",
       "method": "difference",
       "name": "fuel_used",
@@ -231,6 +183,60 @@ trip :
       "method": "last",
       "name": "end_minute",
       "type": "expression"
+    },
+    {
+      "fields": [
+        {
+          "name": "latitude",
+          "value": "if(exists('position.latitude'), $position.latitude, null)"
+        },
+        {
+          "name": "longitude",
+          "value": "if(exists('position.longitude'), $position.longitude, null)"
+        },
+        {
+          "name": "direction",
+          "value": "if(exists('position.direction'), $position.direction, null)"
+        },
+        {
+          "name": "address",
+          "value": "if(exists('wialon.address'), $wialon.address, null)"
+        },
+        {
+          "name": "rpm",
+          "value": "if(exists('can.engine.rpm'), $can.engine.rpm, null)"
+        },
+        {
+          "name": "speed",
+          "value": "if(exists('position.speed'), $position.speed, null)"
+        },
+        {
+          "name": "voltage",
+          "value": "if(exists('battery.voltage'), $battery.voltage, null)"
+        },
+        {
+          "name": "fuel_volume",
+          "value": "if(exists('can.fuel.volume'), $can.fuel.volume, null)"
+        },
+        {
+          "name": "satellites",
+          "value": "if(exists('position.satellites'), $position.satellites, null)"
+        },
+        {
+          "name": "engine_temperature",
+          "value": "if(exists('can.engine.temperature'), $can.engine.temperature, null)"
+        },
+        {
+          "name": "gsm_signal_level",
+          "value": "if(exists('gsm.signal.level'), $gsm.signal.level, null)"
+        },
+        {
+          "name": "powersource_voltage",
+          "value": "if(exists('external.powersource.voltage'), $external.powersource.voltage, null)"
+        }
+      ],
+      "name": "position_dataset",
+      "type": "dataset"
     }
   ],
   "timezone": "Africa/Casablanca"
@@ -795,4 +801,80 @@ decrease:
     }
   ],
   "timezone": "UTC"
+}
+
+
+
+erlay_late :
+
+{
+  "intervals_ttl": 31536000,
+  "update_delay": 30,
+  "update_period": 7776000,
+  "update_onchange": true,
+  "messages_source": {
+    "source": "device"
+  },
+  "validate_message": "",
+  "validate_interval": "",
+  "name": "erlay_late",
+  "selectors": [
+    {
+      "expression": "$engine.ignition.status && $position.speed>5",
+      "max_inactive": 120,
+      "max_messages_time_diff": 300,
+      "merge_message_after": true,
+      "merge_message_before": true,
+      "merge_unknown": true,
+      "method": "boolean",
+      "min_duration": 60,
+      "type": "expression"
+    }
+  ],
+  "intervals_rotate": 0,
+  "counters": [
+    {
+      "method": "first",
+      "name": "device_id",
+      "parameter": "device.id",
+      "type": "parameter"
+    },
+    {
+      "method": "last",
+      "name": "last_address",
+      "parameter": "wialon.address",
+      "type": "parameter"
+    },
+    {
+      "method": "first",
+      "name": "first_address",
+      "parameter": "wialon.address",
+      "type": "parameter"
+    },
+    {
+      "expression": "hour($timestamp)",
+      "method": "first",
+      "name": "start_hour",
+      "type": "expression"
+    },
+    {
+      "expression": "hour($timestamp)",
+      "method": "last",
+      "name": "end_hour",
+      "type": "expression"
+    },
+    {
+      "expression": "minute($timestamp)",
+      "method": "first",
+      "name": "start_minute",
+      "type": "expression"
+    },
+    {
+      "expression": "minute($timestamp)",
+      "method": "last",
+      "name": "end_minute",
+      "type": "expression"
+    }
+  ],
+  "timezone": "Africa/Casablanca"
 }

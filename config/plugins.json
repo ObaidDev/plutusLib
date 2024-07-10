@@ -20,5 +20,20 @@
         "priority": 0,
         "type_id": 23,
         "timezone": "UTC"
+    },
+    {
+        "required": false,
+        "enabled": true,
+        "validate_message": "",
+        "item_type": 11,
+        "name": "geofence-plugin",
+        "configuration": {
+          "hit_type": "single",
+          "name_param": "plugin.geofence.name",
+          "status_param": "plugin.geofence.status"
+        },
+        "priority": 0,
+        "type_id": 14,
+        "timezone": "UTC"
     }
 ]
