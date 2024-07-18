@@ -8,12 +8,17 @@ class RealmDto {
     private $homeType;
     private $name;
     private TokenDto $token;
+    private $ids ;
 
 
     public function __construct($name ,$homeType, TokenDto $token) {
         $this->homeType = $homeType;
         $this->name = $name;
         $this->token = $token;
+    }
+
+    static function emptyConstruct() : RealmDto {
+        return new self(null , null , new TokenDto(null)) ;
     }
 
 
@@ -39,6 +44,14 @@ class RealmDto {
 
     public function setToken($token) {
         $this->token = $token;
+    }
+
+    public function getIds() {
+        return $this->ids;
+    }
+
+    public function setIds($ids) {
+        $this->ids = $ids;
     }
 
     public function __invoke() {

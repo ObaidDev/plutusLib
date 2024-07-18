@@ -79,9 +79,11 @@ class FacadeChannel
             return $response ;
         }
         else {
-            $data = [["name"=>$channeldto->getName()."-channel-".date("Y-m-d") ,
-            "protocol_id"=>$channeldto->getProtocol_id()]];
-            $response = $this->createChannel($data,$userToken) ;
+            // $data = [["name"=>$channeldto->getName()."-channel-".date("Y-m-d") ,
+            // "protocol_id"=>$channeldto->getProtocol_id()]];
+            // $response = $this->createChannel($data,$userToken) ;
+            $this->saveChannelsData($userToken);
+            $response = self::$channel->getChannelinfoUsingDevice($channeldto  , $userToken , $GLOBALS["channel-data-path"]) ;
             return $response["result"][0] ;
         };
 

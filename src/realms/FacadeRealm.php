@@ -3,6 +3,7 @@
 namespace Fdvice\realms ;
 use Fdvice\realms\realm\RealmInterface;
 use Fdvice\realms\realm\Realm;
+use Fdvice\realms\realm\RealmDto ;
 
 use Fdvice\realms\user\UserInterface;
 use Fdvice\realms\user\User;
@@ -14,8 +15,8 @@ use Fdvice\exception\AccountCreationException ;
 // use Fdvice\exception\TokenCreationException ;
 
 // take the token form the config just for dev purpose .
-// require_once base_path()."/config/config-flespi.php" ;
-require_once "./config/config-exemple.php" ;
+// require_once "./config/config-flespi.php" ;
+// require_once "./config/config-exemple.php" ;
 
 final class FacadeRealm
 {
@@ -45,7 +46,7 @@ final class FacadeRealm
     //todo use Subaccount object . 
     public  function addRealm($realms , $userToken):array{
 
-        $res = self::$realm->addRealm($realms ,$GLOBALS["Token"]) ;
+        $res = self::$realm->addRealm($realms , $userToken) ;
         return $res ;
     }
 
@@ -73,11 +74,19 @@ final class FacadeRealm
         return $global_resp ;
     }
 
+    public function addUserRealm(UserDto $user  , $userToken){
+        $res = self::$user->realmCreateUser($user  , $userToken) ;
+        return $res ;
+    } 
+
 
     public function login(UserDto $user) : array {
         $res = self::$user->login($user) ;
-
         return $res ;
+    }
+
+    function getRealm(RealmDto $realmDto , $credentials) : array {
+        return self::$realm->getRealm($realmDto , $credentials) ;
     }
 
    

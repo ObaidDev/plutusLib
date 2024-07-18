@@ -12,13 +12,26 @@ class Realm  implements RealmInterface {
             // var_dump($realm()) ;
             return $realm() ;
         },$realms) ;
-
-        $url = "https://flespi.io/platform/realms" ;
+        $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "realm") ;
+        // $url = "https://flespi.io/platform/realms" ;
         $curl = CurlHelper::post($url , $realms ,$credentials);
         $response = CurlHelper::excuteCurl($curl);
 
 
         return $response ;
+    }
+
+
+    public function getRealm(RealmDto $realmDto , $credentials) :array {
+
+        $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "realm") ;
+        $url = $url."/".join("," , $realmDto->getIds()) ;
+
+        $curl = CurlHelper::get($url , $credentials) ;
+        $response = CurlHelper::excuteCurl($curl);
+
+        return $response ;
+        return [] ;
     }
     
 

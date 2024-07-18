@@ -53,6 +53,11 @@
                 "name":"auth" ,
                 "url":"https://flespi.io/auth" ,
                 "description":"nothig ..."
+            },
+            {
+                "name":"realm" ,
+                "url":"https://flespi.io/platform/realms" ,
+                "description":"nothig ..."
             }
 
         ]

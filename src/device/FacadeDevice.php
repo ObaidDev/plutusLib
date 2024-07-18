@@ -54,8 +54,8 @@ class FacadeDevice {
         return $res ;
     }
 
-    function getDeviceinfo($dataQuery, $Usertoken) {
-        $res = self::$device->getDeviceinfo($dataQuery , $GLOBALS["Token"]) ;
+    function getDeviceinfo(DeviceDto $deviceDto, $userToken) {
+        $res = self::$device->getDeviceinfo($deviceDto , $userToken) ;
         return $res ;
     }
 

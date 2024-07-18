@@ -233,4 +233,34 @@ final class CurlHelper
         }
         return null;
     }
+
+    static function time_to_minutes($hour, $minute) {
+
+        return $hour * 60 + $minute;
+    }
+
+
+    static function handle_wraparound($R_start, $R_end) {
+        // Adjust R_end if it is less than R_start
+        if ($R_end == 0) {
+            $R_end = 1440; // Adjust 00:00 to 24:00
+        } elseif ($R_end < $R_start) {
+            $R_end += 1440; // Add 24 hours in minutes to R_end
+        }
+        return [$R_start, $R_end];
+    }
+
+    static function is_trip_overlapping_range($T_start, $T_end, $R_start, $R_end) {
+        // Handle wraparound for the range
+        list($R_start, $R_end) = CurlHelper::handle_wraparound($R_start, $R_end);
+        
+        // Handle wraparound for the trip times
+        if ($T_end < $T_start) {
+            $T_end += 1440; // Add 24 hours in minutes to T_end
+        }
+    
+        // Check for overlap
+        return ($T_start < $R_end && $T_end > $R_start);
+    }
+    
 }

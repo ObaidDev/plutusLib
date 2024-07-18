@@ -15,6 +15,8 @@ class TokenDto {
     // private $realmId;
     private $tokenId ;
     private $ownerId ;
+    private $filter ;
+    private $endPointParam ;
 
     public function __construct($type) {
         $this->type = $type;
@@ -23,12 +25,34 @@ class TokenDto {
         
     }
 
+    static function emptyConstruct(){
+        return (new TokenDto(null));
+    }
+
     public function getType() {
         return $this->type;
     }
 
     public function setType($type) {
         $this->type = $type;
+    }
+
+    public function getFilter() {
+        return $this->filter;
+    }
+
+    public function setFilter($filter) {
+        $this->filter = $filter;
+    }
+
+    // endpointParam
+    public function getEndPointParam() {
+        return $this->endPointParam;
+        // {"key" : "fsqlfklqjsfkljsklfdkjqklsfjkl"}
+    }
+
+    public function setEndPointParam($endPointParam) {
+        $this->endPointParam = $endPointParam;
     }
 
     // info 

@@ -2,6 +2,7 @@
 namespace Fdvice\device\manage;
 use Fdvice\CurlHelper;
 
+use Fdvice\device\manage\DeviceDto ;
 
 class Device  implements DeviceInterface  
 {
@@ -21,11 +22,12 @@ class Device  implements DeviceInterface
 
     }
 
-    function getDeviceinfo($dataQuery , $credentials):array {
-        $selector = $dataQuery["selector"] ;
+    function getDeviceinfo(DeviceDto $deviceDto , $credentials):array {
+        // $selector = $dataQuery["selector"] ;
         
-        $url = "https://flespi.io/gw/devices/". ($selector != null ? "$selector" : "all")."?fields=".
-        join(",",$dataQuery["fields"]);
+        $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "device") ;
+        $url = $url ."/". ($deviceDto->getIds() != null ? $deviceDto->getIds() : "all")."?fields=".
+        join(",",$deviceDto->getFields());
 
         $curl = CurlHelper::get($url , $credentials) ;
 

@@ -15,7 +15,6 @@ class UserDto {
     private $realmPublicId;
 
     public function __construct() {
-
     }
 
     static function create($name, $password, $realmId) : UserDto {

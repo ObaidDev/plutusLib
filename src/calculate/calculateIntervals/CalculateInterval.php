@@ -29,8 +29,6 @@ final class CalculateInterval  implements CalculateIntervalInterface
       $curl = CurlHelper::get($url , $credentials);
       $response = CurlHelper::excuteCurl($curl) ;
 
-      // var_dump($response) ;
-      // die() ;
       return $response ;
       // return [$url] ;
   }
@@ -85,6 +83,10 @@ final class CalculateInterval  implements CalculateIntervalInterface
             $end = $formattedDates[1] . " " . "23:59:00";
           };
 
+          // var_dump($start) ;
+          // var_dump($end) ;
+          // die() ;
+
           $start = strtotime($start);
           $end = strtotime($end);
 
@@ -94,6 +96,8 @@ final class CalculateInterval  implements CalculateIntervalInterface
           // if(begin >= strftime(1712077680) && end <= strftime(1712078820), 1, 0)
           $dates = "( ".$start ." && ".$end ." , 1 , error() )" ;
           $dates = "if".$dates  ;
+
+
 
           array_push($filters , $dates);
         break;
@@ -213,7 +217,8 @@ final class CalculateInterval  implements CalculateIntervalInterface
         //? we used it to give the user the poisblite to get the unauthorized use of the vehicls for a given date range and given time range . 
         case 'timer':
           # code...
-          try {
+          try 
+          {
             $timer1 = $filter_List["timer"]["timer1"];
             $timer2 = $filter_List["timer"]["timer2"];
 
@@ -225,24 +230,52 @@ final class CalculateInterval  implements CalculateIntervalInterface
             // " , true , error() )" ;
 
             // $start_hour >= X && $start_hour < Y && ($start_hour != X || $start_minute >= Z)
-            $tim1 = "(start_hour >= ".$timer1["start_hour"]
-            ." && "."start_hour < ".$timer2["end_hour"]
-            ." && ("."start_hour !=".$timer1["start_hour"].
-            " || start_minute > ".$timer1["start_minute"]
-            ."))" ;
+            
+            // $tim1 = "(start_hour >= ".$timer1["start_hour"]
+            // ." && "."start_hour < ".$timer2["end_hour"]
+            // ." && ("."start_hour !=".$timer1["start_hour"].
+            // " || start_minute > ".$timer1["start_minute"]
+            // ."))" ;
 
-            $tim2 = "(end_hour <= ".$timer2["end_hour"]
-            ." && "."end_hour > ".$timer1["start_hour"]." && ("."end_hour !=".$timer2["end_hour"].
-            " || end_minute < ".$timer2["end_minute"]
-            ."))" ;
+            // $tim2 = "(end_hour <= ".$timer2["end_hour"]
+            // ." && "."end_hour > ".$timer1["start_hour"]." && ("."end_hour !=".$timer2["end_hour"].
+            // " || end_minute < ".$timer2["end_minute"]
+            // ."))" ;
 
-            $qte = "if( ". $tim1." || ".$tim2 .", true , error())" ;
+            // $tim1 = "(start_hour <= ".$timer2["end_hour"].")" ;
+            // $tim2 = "(end_hour >= ".$timer1["start_hour"].")" ;
+
+            $T_start = "start_total_minutes" ;
+            // total_minutes start_total_minutes
+            // $T_end = "if((end_hour * 60 + end_minute) < (start_hour * 60 + start_minute) , (end_hour * 60 + end_minute) + 1440 ,(end_hour * 60 + end_minute) )" ;
+            $T_end = "total_minutes" ;
+            $R_start = CurlHelper::time_to_minutes($timer1["start_hour"] , $timer1["start_minute"]) ;
+            $R_end = CurlHelper::time_to_minutes($timer2["end_hour"] , $timer2["end_minute"]) ;
+
+
+            list($R_start, $R_end) = CurlHelper::handle_wraparound($R_start, $R_end);
+
+            // var_dump($R_start, $R_end) ;
+            // die() ;
+
+            
+            // $qte = "if(start_hour <= 2 && end_hour >= 24  , true , error())" ;
+            
+            // if($T_start>$T_end , if((". $T_start + 1440."<=".$R_end.") && (".$T_end.">=".$R_start ."), true , error()) , "if((". $T_start."<=".$R_end.") && (".$T_end.">=".$R_start ."), true , error())")
+            $qte = "if((". $T_start."<=".$R_end.") && (".$T_end.">=".$R_start ."), true , error())" ;
             // $qte = "if( ". $tim1 .", true , error())" ;
+            // (start_hour_min >= start_time_hour_min or start_hour_min <= end_time_hour_min)
+            // $qte = "if (
+            //           ((start_hour * 60 + start_minute >= 23 * 60) || (start_hour * 60 + start_minute <= 2 * 60 + 20))
+            //           || ((end_hour * 60 + end_minute >= 23 * 60) || (end_hour * 60 + end_minute <= 2 * 60 + 20))
+            //           , true, error())" ;
+            
+            // !important .. (if the start_hour > end_hour)
+            // $qte = "if(".$T_start.">".$T_end.",if((". ($T_start)."<=".$R_end.") && (".($T_end ."+1440").">=".$R_start ."), true , error()),".$subqte.")" ;
 
-            // $qte = "hello" ;
-
-          } catch (\Throwable $th) {
-
+          } 
+          catch (\Throwable $th) {
+            
             if (array_key_exists("timer1" , $filter_List["timer"])) {
               # code...
               $timer1 = $filter_List["timer"]["timer1"];

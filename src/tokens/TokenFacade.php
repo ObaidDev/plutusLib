@@ -23,7 +23,7 @@ final class TokenFacade
                             creatUserToken(
                                 $tokens ,
                                 $userToken
-                                ) ;
+                            ) ;
         return $res ;
     }
 
@@ -35,5 +35,11 @@ final class TokenFacade
     function deleteToken(TokenDto $token ,$userToken) : array {
         $res = self::$token->deleteToken($token ,$userToken) ;
         return $res ;
+    }
+
+    public function getToken (TokenDto $token ,$userToken): array {
+        $res = self::$token->getToken($token ,$userToken) ;
+        return $res ;
+
     }
 }

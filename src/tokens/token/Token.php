@@ -64,4 +64,19 @@ class Token  implements TokenInterface
       return $response ;
     }
 
+
+    public function getToken (TokenDto $token ,$userToken) :array {
+        
+        $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "token") ;
+        $url = $url."/".key($token->getEndPointParam())."=".$token->getEndPointParam()[key($token->getEndPointParam())] ;
+        
+        // var_dump($url) ;
+        // die();
+        
+        $curl = CurlHelper::get($url , $userToken) ;
+        $response = CurlHelper::excuteCurl($curl);
+        return $response ;
+        return [] ;
+    }
+
 }

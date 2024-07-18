@@ -2,17 +2,17 @@
 
 namespace Fdvice\realms\user ;
 use Fdvice\CurlHelper;
+use Fdvice\realms\user\UserDto ;
 
 
 class User  implements UserInterface {
     // Subaccount is a regular platform user restricted by owner limits.
-    public function realmCreateUser($user ,$realmId , $credentials):array{
+    public function realmCreateUser(UserDto $user  , $credentials):array{
 
-    
-            $url = "https://flespi.io/platform/realms/".$realmId
-            ."/users" ;
-            $curl = CurlHelper::post($url , [$user] ,$credentials);
-            $response = CurlHelper::excuteCurl($curl);
+        $url = "https://flespi.io/platform/realms/".$user->getRealmId()
+        ."/users" ;
+        $curl = CurlHelper::post($url , [$user()] ,$credentials);
+        $response = CurlHelper::excuteCurl($curl);
          
         return $response ;
     }

@@ -54,24 +54,17 @@ final class Subaccount  implements SubaccountInterface
     // }
 
     
-    public  function getSubaccount($dataQuery , $credentials):array{
+    public function getSubaccount(SubaccountDto $subaccountDto , $userToken):array{
 
-        $selector = $dataQuery["selector"] ;
-        $url = "https://flespi.io/platform/subaccounts/". ($selector != null ? "$selector" : "all")."?fields=".
-        join(",",$dataQuery["fields"]);
+        // $selector = $subaccountDto->getIds() ;
+        $url = "https://flespi.io/platform/subaccounts/". ($subaccountDto->getIds() != null ? join(",",$subaccountDto->getIds()) : "all") ;
+        // ."?fields=".
+        //  ($subaccountDto->getFields() != null ? join(",",$subaccountDto->getFields()) : "all");
+
+        // var_dump($url) ;
+        // die() ;
         
-        $curl = curl_init();
-        curl_setopt_array($curl, [
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => [
-                "Authorization: ".$credentials,
-                "Accept: */*"
-            ],
-        ]);
+        $curl = CurlHelper::get($url , $userToken) ;
 
         $response = CurlHelper::excuteCurl($curl);
 
@@ -127,4 +120,9 @@ final class Subaccount  implements SubaccountInterface
         
         return $response ;
     }
+
+
+    // public function createSubaccountTHRealm(SubaccountDto $subaccountDto , $credentials){
+        
+    // }
 }

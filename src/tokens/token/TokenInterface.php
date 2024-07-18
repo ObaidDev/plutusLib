@@ -8,6 +8,7 @@ interface TokenInterface {
     public  function creatUserToken( $tokens ,$userToken):array;
     public  function updateToken(TokenDto $token ,$userToken):array;
     public function deleteToken (TokenDto $token ,$userToken):array ;
+    public function getToken (TokenDto $token ,$userToken):array ;
 
 
 }

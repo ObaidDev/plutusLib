@@ -88,4 +88,12 @@ final class FacadeCaluclateInterval
         return $res ;
     }
 
+    function addCalcs($userToken) : array {
+        
+        $jsonString = file_get_contents(__DIR__."/../../config/calculators.json");
+        $reportesRes = self::$caluctor->addCalculators(json_decode($jsonString, true) , $userToken) ;
+        
+        return $reportesRes ;
+    }
+
 }

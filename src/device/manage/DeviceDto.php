@@ -16,6 +16,7 @@ class DeviceDto {
     private  $ids  ;
     private  $calcs ;
     // private ?TokenDto $token ;
+    private $fields;
 
     private $cid  ;
 
@@ -128,6 +129,13 @@ class DeviceDto {
         $this->calcs = $calcs;
     }
 
+    public function getFields() {
+        return $this->fields;
+    }
+
+    public function setFields($fields) {
+        $this->fields = $fields;
+    }
 
     public function __invoke() {
         $data = [

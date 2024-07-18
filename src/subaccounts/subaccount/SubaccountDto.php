@@ -16,12 +16,17 @@ class SubaccountDto {
     // private PasswdDto $passwd ;
     private string $passwd ;
     private $ids ;
+    private $fields;
 
     public function __construct() {
         // $this->name = $name;
         // $this->email = $email;
         // $this->passwd = $passwd;
         // $this->limit_id = $limit_id;
+    }
+
+    static function emptyConstruct(){
+        return (new SubaccountDto());
     }
 
     static function create($name , $passwd , $email){
@@ -95,6 +100,14 @@ class SubaccountDto {
 
     public function setIds($ids) {
         $this->ids = $ids;
+    }
+
+    public function getFields() {
+        return $this->fields;
+    }
+
+    public function setFields($fields) {
+        $this->fields = $fields;
     }
 
 

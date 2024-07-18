@@ -303,5 +303,14 @@ final class FacadSubaccount
     }
 
 
+    function addCalcs($userToken) : array {
+        
+        $jsonString = file_get_contents(__DIR__."/../../config/calculators.json");
+        $reportesRes = self::$caluctor->addCalculators(json_decode($jsonString, true) , $key) ;
+        
+        return $reportesRes ;
+    }
+
+
     
 }
