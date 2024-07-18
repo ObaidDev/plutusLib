@@ -161,30 +161,6 @@ trip :
       "type": "expression"
     },
     {
-      "expression": "hour($timestamp)",
-      "method": "first",
-      "name": "start_hour",
-      "type": "expression"
-    },
-    {
-      "expression": "hour($timestamp)",
-      "method": "last",
-      "name": "end_hour",
-      "type": "expression"
-    },
-    {
-      "expression": "minute($timestamp)",
-      "method": "first",
-      "name": "start_minute",
-      "type": "expression"
-    },
-    {
-      "expression": "minute($timestamp)",
-      "method": "last",
-      "name": "end_minute",
-      "type": "expression"
-    },
-    {
       "fields": [
         {
           "name": "latitude",
@@ -233,10 +209,39 @@ trip :
         {
           "name": "powersource_voltage",
           "value": "if(exists('external.powersource.voltage'), $external.powersource.voltage, null)"
+        },
+        {
+          "name": "speed_limit",
+          "value": "if(exists('wialon.speed.limit'), $wialon.speed.limit, null)"
         }
       ],
       "name": "position_dataset",
       "type": "dataset"
+    },
+    {
+      "expression": "if(hour($end) == 0 , hour($end) * 60 + minute($end) + 1440 , hour($end) * 60 + minute($end))",
+      "name": "end_total_minute",
+      "type": "interval"
+    },
+    {
+      "expression": "hour($begin) * 60 + minute($begin)",
+      "name": "start_total_minutes",
+      "type": "interval"
+    },
+    {
+      "expression": "day($end) - day($begin)",
+      "name": "dif_day",
+      "type": "interval"
+    },
+    {
+      "expression": "end_total_minute + 1440 * dif_day",
+      "name": "total_minutes",
+      "type": "interval"
+    },
+    {
+      "expression": "start_total_minutes + 1440 * dif_day",
+      "name": "total_start_minutes",
+      "type": "interval"
     }
   ],
   "timezone": "Africa/Casablanca"
