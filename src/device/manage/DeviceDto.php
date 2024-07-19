@@ -17,7 +17,7 @@ class DeviceDto {
     private  $calcs ;
     // private ?TokenDto $token ;
     private $fields;
-    private ?bool $enabled = false ;
+    private $enabled = null ;
 
     private $cid  ;
 
@@ -143,7 +143,7 @@ class DeviceDto {
     }
 
     // Setter
-    public function setEnabled(?bool $enabled): void {
+    public function setEnabled(?bool $enabled):void {
         $this->enabled = $enabled;
     }
 
@@ -159,12 +159,24 @@ class DeviceDto {
         ($this->getPhone() != null) ? $data["configuration"]["phone"]=$this->getPhone():null ;
         ($this->getMessages_ttl() != null) ? $data["messages_ttl"]=$this->getMessages_ttl():null ;
         ($this->getMedia_ttl() != null) ? $data["media_ttl"]=$this->getMedia_ttl():null ;
-
+        $this->isEnabled() !== null ? $data["enabled"] = $this->isEnabled() : null;
+        
         return $data ;
 
         // var_dump($data) ;
+    }
 
-        
+
+    public function _update() : array {
+        $data =[] ;
+        // var_dump($this->isEnabled()) ;
+        ($this->getPhone() != null) ? $data["configuration"]["phone"]=$this->getPhone():null ;
+        ($this->getMessages_ttl() != null) ? $data["messages_ttl"]=$this->getMessages_ttl():null ;
+        ($this->getMedia_ttl() != null) ? $data["media_ttl"]=$this->getMedia_ttl():null ;
+        $this->isEnabled() !== null ? $data["enabled"] = $this->isEnabled() : null;
+        // var_dump($data) ;
+        // die()  ;
+        return $data ;
     }
 }
 

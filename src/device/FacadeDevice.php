@@ -64,8 +64,8 @@ class FacadeDevice {
         return $res ;
     }
 
-    function updateDevice($deviceData , $selector, $Usertoken):array {
-        $res = self::$device->updateDevice($deviceData , $selector, $GLOBALS["Token"]) ;
+    function updateDevice($deviceData, $Usertoken):array {
+        $res = self::$device->updateDevice($deviceData , $Usertoken) ;
         return $res ;
     }
 

@@ -84,7 +84,9 @@ class FacadeChannel
             // $response = $this->createChannel($data,$userToken) ;
             $this->saveChannelsData($userToken);
             $response = self::$channel->getChannelinfoUsingDevice($channeldto  , $userToken , $GLOBALS["channel-data-path"]) ;
-            return $response["result"][0] ;
+            
+            // return $response["result"][0] ;
+            return $response ;
         };
 
         // $response can be the target channel or the error .

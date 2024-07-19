@@ -247,7 +247,7 @@ trip :
   "timezone": "Africa/Casablanca"
 }
 
-stop : 
+stop :
 
 {
   "intervals_ttl": 31536000,
@@ -311,7 +311,7 @@ daily total milleage :
   },
   "validate_message": "position.speed>5",
   "validate_interval": "",
-  "name": "Daily + total milleage with route",
+  "name": "daily",
   "selectors": [
     {
       "expression": "position.speed>5",
@@ -381,7 +381,7 @@ Refuel :
   },
   "validate_message": "can.fuel.volume",
   "validate_interval": "fuel.delta>3",
-  "name": "Refuel",
+  "name": "refuel",
   "selectors": [
     {
       "expression": "#can.fuel.volume<can.fuel.volume",
@@ -445,11 +445,10 @@ Refuel :
       "type": "route"
     }
   ],
-  "timezone": "UTC",
-  "metadata": {}
+  "timezone": "UTC"
 }
 
-over-speeding : 
+over-speeding :
 
 {
   "intervals_ttl": 31536000,
@@ -522,7 +521,7 @@ idl :
   },
   "validate_message": "exists(\"position.speed\")",
   "validate_interval": "",
-  "name": "idl detector",
+  "name": "idle",
   "selectors": [
     {
       "expression": "position.speed<5 && engine.ignition.status == true",
@@ -570,10 +569,7 @@ idl :
       "type": "parameter"
     }
   ],
-  "timezone": "UTC",
-  "metadata": {
-    "message": ""
-  }
+  "timezone": "UTC"
 }
 
 
@@ -590,7 +586,7 @@ fuel_consumption :
   },
   "validate_message": "",
   "validate_interval": "",
-  "name": "fuel_consumption",
+  "name": "consumption",
   "selectors": [
     {
       "expression": "$position.speed>0 && #can.fuel.volume>=can.fuel.volume",
@@ -663,8 +659,7 @@ fuel_consumption :
       "type": "parameter"
     }
   ],
-  "timezone": "UTC",
-  "metadata": {}
+  "timezone": "UTC"
 }
 
 
@@ -706,8 +701,7 @@ inactive :
       "type": "route"
     }
   ],
-  "timezone": "UTC",
-  "metadata": {}
+  "timezone": "UTC"
 }
 
 decrease:
@@ -810,7 +804,7 @@ decrease:
 
 
 
-erlay_late :
+early_late :
 
 {
   "intervals_ttl": 31536000,
@@ -822,7 +816,7 @@ erlay_late :
   },
   "validate_message": "",
   "validate_interval": "",
-  "name": "erlay_late",
+  "name": "early_late",
   "selectors": [
     {
       "expression": "$engine.ignition.status && $position.speed>5",

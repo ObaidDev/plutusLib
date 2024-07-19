@@ -39,7 +39,7 @@ final class Channel implements ChannelInterface
             # code
             if (isset($item["protocol_id"]) && $item["protocol_id"] == $channeldto->getProtocol_id()) {
                 $target_channel = $item ;
-                break ;
+                break   ;
             }
         }
 
