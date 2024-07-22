@@ -10,8 +10,10 @@ use Fdvice\device\manage\DeviceDto ;
 $facade = new FacadeDevice() ;
 
 $deviceDto = DeviceDto::emptyConstruct();
-$deviceDto->setIds([5781730]) ;
-$deviceDto->setEnabled(true) ;
+$deviceDto->setIds([5840189]) ;
+// $deviceDto->setEnabled(true) ;
+$deviceDto->setName("hellogogo") ;
+$deviceDto->setFields(["id"]) ;
 
 // $deviceDto->setIds([]) ;
 // $deviceDto->setFields(["id","name"]) ;
