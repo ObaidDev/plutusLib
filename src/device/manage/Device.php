@@ -89,4 +89,20 @@ class Device  implements DeviceInterface
         return $response ;
 
     }
+
+
+    function getSettings(DeviceDto $deviceDto , $credentials):array {
+        // $selector = $dataQuery["selector"] ;
+
+        $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "device") ;
+        $url = $url ."/". ($deviceDto->getIds() != null ? join("," ,  $deviceDto->getIds()) : "all")
+        ."/settings/all"."?fields=" ;
+        // ($deviceDto->getFields() !=null ? join(",",$deviceDto->getFields()) : "");
+
+        $curl = CurlHelper::get($url , $credentials) ;
+
+        $response = CurlHelper::excuteCurl($curl);
+
+        return $response ;
+    }
 }

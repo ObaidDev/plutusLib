@@ -15,7 +15,7 @@ class DeviceDto {
     private  $ids  ;
     private  $calcs ;
     // private ?TokenDto $token ;
-    private $fields;
+    private $fields = null;
     private $enabled = null ;
 
     private $cid  ;

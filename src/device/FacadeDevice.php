@@ -121,23 +121,31 @@ class FacadeDevice {
 
 
     // setttings methods .
-    function updateSettings($dataQuery, $in_data):array{
-        $res = $this->settings->updateSettings($dataQuery, $in_data, $GLOBALS["Token"]);
-        return $res ;
-    }
+    // function updateSettings($dataQuery, $in_data):array{
+    //     $res = $this->settings->updateSettings($dataQuery, $in_data, $GLOBALS["Token"]);
+    //     return $res ;
+    // }
 
-    function deleteSettings($dataQuery):array{
-        $res = $this->settings->deleteSettings($dataQuery , $GLOBALS["Token"]);
-        return $res ;
-    }
+    // function deleteSettings($dataQuery):array{
+    //     $res = $this->settings->deleteSettings($dataQuery , $GLOBALS["Token"]);
+    //     return $res ;
+    // }
 
-    function getSettingsinfo($dataQuery, $Usertoken):array{
-        $res = $this->settings->getSettingsinfo($dataQuery , $GLOBALS["Token"]);
-        return $res ;
-    }
+    // function getSettingsinfo($dataQuery, $Usertoken):array{
+    //     $res = $this->settings->getSettingsinfo($dataQuery , $GLOBALS["Token"]);
+    //     return $res ;
+    // }
 
-    function dirctlyExcuteReport (DeviceDto $deviceDto , SelectorsInterface $selector , $userToken) : array {
-        $res = self::$dirctlyRestCalcs->dirctlyExcuteReport($deviceDto , $selector ,$userToken) ;
+    // function dirctlyExcuteReport (DeviceDto $deviceDto , SelectorsInterface $selector , $userToken) : array {
+    //     $res = self::$dirctlyRestCalcs->dirctlyExcuteReport($deviceDto , $selector ,$userToken) ;
+    //     return $res ;
+    // }
+
+    // settings 
+
+    function getSettings(DeviceDto $deviceDto , $userToken) : array {
+        
+        $res = self::$device->getSettings($deviceDto , $userToken) ;
         return $res ;
     }
 }
