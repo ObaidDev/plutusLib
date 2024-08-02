@@ -41,10 +41,10 @@ class FacadeDevice {
     }
     public function setDevice($device){
         self::$device = $device;
-        
+
     }
     function getDevice() : DeviceInterface {
-        
+
         return self::$device;
     }
 
@@ -71,19 +71,19 @@ class FacadeDevice {
 
     // get the device type and names and other things .
     function saveDevicesData() : void {
-        
+
         // if you want to change the fileds that return by or somthing you can change it from here ;
         $jsonString = '{"channel-protocols.selector":[],"devtypes":[],"fields":["protocol_name","id","protocol_id","name","title"]}';
         $data_Query = json_decode($jsonString , true) ;
-        
+
         $res = self::$device->getListDevices($data_Query , $GLOBALS["Token"]) ;
 
         $path = $GLOBALS['device-data-path'] ;
-        
-        // $ this code is from saving the data in json file 
-        // @ you can change the path of this file by editing the device-data-path 
+
+        // $ this code is from saving the data in json file
+        // @ you can change the path of this file by editing the device-data-path
         // in config-flespi.php
-        
+
         $jsonData = json_encode($res, JSON_PRETTY_PRINT);
             // Extract the directory path
             $dirPath = dirname($path);
@@ -136,15 +136,15 @@ class FacadeDevice {
     //     return $res ;
     // }
 
-    // function dirctlyExcuteReport (DeviceDto $deviceDto , SelectorsInterface $selector , $userToken) : array {
-    //     $res = self::$dirctlyRestCalcs->dirctlyExcuteReport($deviceDto , $selector ,$userToken) ;
-    //     return $res ;
-    // }
+    function dirctlyExcuteReport (DeviceDto $deviceDto , SelectorsInterface $selector , $userToken) : array {
+        $res = self::$dirctlyRestCalcs->dirctlyExcuteReport($deviceDto , $selector ,$userToken) ;
+        return $res ;
+    }
 
-    // settings 
+    // settings
 
     function getSettings(DeviceDto $deviceDto , $userToken) : array {
-        
+
         $res = self::$device->getSettings($deviceDto , $userToken) ;
         return $res ;
     }

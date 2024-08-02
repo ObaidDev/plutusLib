@@ -58,6 +58,11 @@
                 "name":"realm" ,
                 "url":"https://flespi.io/platform/realms" ,
                 "description":"nothig ..."
+            },
+            {
+                "name":"webhook" ,
+                "url":"https://flespi.io/platform/webhooks" ,
+                "description":"nothig ..."
             }
 
         ]

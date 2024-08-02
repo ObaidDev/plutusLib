@@ -2,6 +2,7 @@
   "name": "plutus-connector/plutus-connector",
   "description": "Flespi interface library",
   "type": "library",
+  "version": "1.0",
   "authors": [
       {
           "name": "Hour Obayd",

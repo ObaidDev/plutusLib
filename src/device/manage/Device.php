@@ -46,7 +46,7 @@ class Device  implements DeviceInterface
         $response = CurlHelper::excuteCurl($curl);
 
         return $response ;
-        
+
     }
 
     function updateDevice(DeviceDto $deviceDto , $userToken):array{
@@ -54,10 +54,10 @@ class Device  implements DeviceInterface
         // url = https://flespi.io/gw/devices/5720023/cid
         // body : {"cid":1879795}
         // $url="https://flespi.io/gw/devices/".join(",",$deviceDto->getIds());
-        // var_dump($deviceDto) ;
+        // var_dump($deviceDto->getFields()) ;
         // die() ;
         $url= CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "device") ;
-        $url = $url."/".join(",",$deviceDto->getIds()). "?fields=".join("," , $deviceDto->getFields()) ;
+        $url = $url."/".join(",",$deviceDto->getIds()). "?fields=" . ($deviceDto->getFields() != null ? join("," , $deviceDto->getFields()) : "") ;
         $curl =  CurlHelper::put($url , $deviceDto->_update() , $userToken) ;
 
         $response = CurlHelper::excuteCurl($curl);

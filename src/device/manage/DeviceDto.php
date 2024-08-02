@@ -5,8 +5,8 @@ namespace Fdvice\device\manage;
 
 
 class DeviceDto {
-    private ?string $name ; 
-    private ?string $ident;
+    private ?string $name ;
+    private ?string $ident = null;
     private ?string $settings_polling = null;
     private ?int $device_type_id;
     private ?int $messages_ttl = null;
@@ -31,14 +31,14 @@ class DeviceDto {
     }
 
     static function update ($ids) {
-        $deviceDto = new DeviceDto("qfq" , "qfqsf" , null) ;
+        $deviceDto = new DeviceDto(null , null , null) ;
         $deviceDto->setIds($ids) ;
 
         return $deviceDto ;
     }
 
     static function delete ($ids) {
-        $deviceDto = new DeviceDto("qfq" , "qfqsf" , null) ;
+        $deviceDto = new DeviceDto(null , null , null) ;
         $deviceDto->setIds($ids) ;
 
         return $deviceDto ;
@@ -120,7 +120,7 @@ class DeviceDto {
     }
 
 
-    //! calcs 
+    //! calcs
     public function getCalcs() {
         return $this->calcs;
     }
@@ -159,7 +159,7 @@ class DeviceDto {
         ($this->getMessages_ttl() != null) ? $data["messages_ttl"]=$this->getMessages_ttl():null ;
         ($this->getMedia_ttl() != null) ? $data["media_ttl"]=$this->getMedia_ttl():null ;
         $this->isEnabled() !== null ? $data["enabled"] = $this->isEnabled() : null;
-        
+
         return $data ;
 
         // var_dump($data) ;
@@ -176,6 +176,7 @@ class DeviceDto {
         ($this->isEnabled() !== null) ? $data["enabled"] = $this->isEnabled() : null;
         ($this->getDevice_type_id() != null) ? $data["device_type_id"] = $this->getDevice_type_id() : null;
         ($this->getName() !== null) ? $data["name"] = $this->getName() : null;
+        
         // var_dump($data) ;
         // die()  ;
         return $data ;
