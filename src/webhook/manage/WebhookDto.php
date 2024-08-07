@@ -18,11 +18,11 @@ final class WebhookDto
     private $delay ;
     private $name ;
     private $body = '{"data":%payload%}';
-    
-    
+
+
 
     private function __construct() {
-    
+
     }
 
 
@@ -66,7 +66,7 @@ final class WebhookDto
     {
         return $this->metadata;
     }
-    
+
     public function getMethod(): string
     {
         return $this->method;
@@ -145,16 +145,16 @@ final class WebhookDto
 
 
     public function _create() : array {
-        
+
         $data =[] ;
         // var_dump($this->isEnabled()) ;
         ($this->getName() != null) ? $data["name"]=$this->getName():null ;
-        
+
         ($this->getType() != null) ? $data["configuration"]["type"]=$this->getType():null ;
         ($this->getUri() != null) ? $data["configuration"]["uri"]=$this->getUri():null ;
         ($this->getMethod() != null) ? $data["configuration"]["method"]=$this->getMethod():null ;
-        ($this->+() != null) ? $data["configuration"]["body"]=$this->getBody():null ;
-        
+        ($this->getBody() != null) ? $data["configuration"]["body"]=$this->getBody():null ;
+
         ($this->getTriggers() != null) ? $data["triggers"]=array_map(function ($triger) : array {
             return $triger->_create() ;
         } , $this->getTriggers()):null ;
