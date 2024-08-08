@@ -19,6 +19,9 @@ final class WebhookDto
     private $name ;
     private $body = '{"data":%payload%}';
 
+    private $ids ;
+
+
 
 
     private function __construct() {
@@ -92,6 +95,12 @@ final class WebhookDto
         return $this->body;
     }
 
+    public function getIds()
+    {
+        return $this->ids;
+    }
+
+
     // Setters
     public function setConfiguration(?array $configuration): void
     {
@@ -141,6 +150,11 @@ final class WebhookDto
     public function setBody(string $body): void
     {
         $this->body = $body;
+    }
+
+    public function setIds($ids): void
+    {
+        $this->ids = $ids;    
     }
 
 

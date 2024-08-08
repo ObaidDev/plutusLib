@@ -96,7 +96,8 @@ final class PluginDto
 
     public function setIds($ids): void
     {
-        $this->ids = $ids;    }
+        $this->ids = $ids;    
+    }
 
     // Getter and Setter for $name
     public function getName()

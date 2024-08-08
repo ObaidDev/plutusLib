@@ -7,7 +7,13 @@ Key Features:
 
 Real-Time Tracking: Monitor the exact location of your vehicles at any time. Remote Engine Control: Remotely cut off the engine to enhance security and control. Data Insights: Gain valuable insights into vehicle usage and performance through comprehensive data analytics. Development Team:
 
-Zakaria Zarrouk Zakaria Raid Abdellatif Hour Houssam Othaman Technological Highlights:
+- Zakaria Zarrouk 
+-    
+- Abdellatif Hour 
+- Houssam 
+- Othaman 
+
+### Technological Highlights:
 
 Containerization with Docker:
 

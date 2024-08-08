@@ -23,5 +23,10 @@ final class WebhookFacade
         return $res ;
         
     }
+
+    function deleteWebhook(WebhookDto $webhookDto , $userToken) : array {
+        $res = self::$webhook->deleteWebhook($webhookDto , $userToken) ;
+        return $res ;
+    }
     
 }
