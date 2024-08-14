@@ -2,6 +2,7 @@
 
 namespace Fdvice\subaccounts\grant ;
 use Fdvice\CurlHelper;
+use Fdvice\subaccounts\subaccount\SubaccountDto ;
 
 
 final class Grant implements GrantInterface
@@ -28,6 +29,21 @@ final class Grant implements GrantInterface
 
 
         return $response ;
+    }
+
+
+    public function grantToSubaccount(GrantDto $grantDto, SubaccountDto $subaccount, $userToken) : array {
+
+        $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "grant") ;
+        $url = $url ."/".join("," , $grantDto->getIds())."/subaccounts/".join("," , $subaccount->getIds());
+
+        $curl = CurlHelper::delete($url  ,$userToken);
+        $response = CurlHelper::excuteCurl($curl);
+
+
+        return $response ;
+
+        // return [] ;
     }
 
     
