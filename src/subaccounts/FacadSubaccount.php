@@ -311,6 +311,11 @@ final class FacadSubaccount
         return $reportesRes ;
     }
 
+    public function grantToSubaccount(GrantDto $grantDto, SubaccountDto $subaccount, $userToken) {
+        $res = self::$grant->grantToSubaccount($grantDto , $subaccount , $userToken) ;
+        return $res ;
+    }
+
 
     
 }
