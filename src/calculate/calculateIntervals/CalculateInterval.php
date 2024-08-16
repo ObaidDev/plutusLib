@@ -223,52 +223,21 @@ final class CalculateInterval  implements CalculateIntervalInterface
             $timer2 = $filter_List["timer"]["timer2"];
 
             // !if((start_hour >= A_hour && start_minute >= A_minute) && (end_hour >= B_hour && end_minute >= B_minute))
-            
-            // $qte = "if( "."(start_hour >= ".$timer1["start_hour"]
-            // ."&&"."start_minute >= ".$timer1["start_minute"].
-            // ") || (end_hour <= ".$timer2["end_hour"]."&& end_minute <= ".$timer2["end_minute"].")".
-            // " , true , error() )" ;
-
-            // $start_hour >= X && $start_hour < Y && ($start_hour != X || $start_minute >= Z)
-            
-            // $tim1 = "(start_hour >= ".$timer1["start_hour"]
-            // ." && "."start_hour < ".$timer2["end_hour"]
-            // ." && ("."start_hour !=".$timer1["start_hour"].
-            // " || start_minute > ".$timer1["start_minute"]
-            // ."))" ;
-
-            // $tim2 = "(end_hour <= ".$timer2["end_hour"]
-            // ." && "."end_hour > ".$timer1["start_hour"]." && ("."end_hour !=".$timer2["end_hour"].
-            // " || end_minute < ".$timer2["end_minute"]
-            // ."))" ;
-
-            // $tim1 = "(start_hour <= ".$timer2["end_hour"].")" ;
-            // $tim2 = "(end_hour >= ".$timer1["start_hour"].")" ;
 
             $T_start = "start_total_minutes" ;
             // total_minutes start_total_minutes
-            // $T_end = "if((end_hour * 60 + end_minute) < (start_hour * 60 + start_minute) , (end_hour * 60 + end_minute) + 1440 ,(end_hour * 60 + end_minute) )" ;
             $T_end = "total_minutes" ;
             $R_start = CurlHelper::time_to_minutes($timer1["start_hour"] , $timer1["start_minute"]) ;
             $R_end = CurlHelper::time_to_minutes($timer2["end_hour"] , $timer2["end_minute"]) ;
 
-
+            /**
+             * * Adjust R_end if it is less than R_start
+             */
             list($R_start, $R_end) = CurlHelper::handle_wraparound($R_start, $R_end);
 
-            // var_dump($R_start, $R_end) ;
-            // die() ;
-
-            
-            // $qte = "if(start_hour <= 2 && end_hour >= 24  , true , error())" ;
-            
+                      
             // if($T_start>$T_end , if((". $T_start + 1440."<=".$R_end.") && (".$T_end.">=".$R_start ."), true , error()) , "if((". $T_start."<=".$R_end.") && (".$T_end.">=".$R_start ."), true , error())")
             $qte = "if((". $T_start."<=".$R_end.") && (".$T_end.">=".$R_start ."), true , error())" ;
-            // $qte = "if( ". $tim1 .", true , error())" ;
-            // (start_hour_min >= start_time_hour_min or start_hour_min <= end_time_hour_min)
-            // $qte = "if (
-            //           ((start_hour * 60 + start_minute >= 23 * 60) || (start_hour * 60 + start_minute <= 2 * 60 + 20))
-            //           || ((end_hour * 60 + end_minute >= 23 * 60) || (end_hour * 60 + end_minute <= 2 * 60 + 20))
-            //           , true, error())" ;
             
             // !important .. (if the start_hour > end_hour)
             // $qte = "if(".$T_start.">".$T_end.",if((". ($T_start)."<=".$R_end.") && (".($T_end ."+1440").">=".$R_start ."), true , error()),".$subqte.")" ;

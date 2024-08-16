@@ -16,6 +16,7 @@ class DeviceDto {
     private  $calcs ;
     // private ?TokenDto $token ;
     private $fields = null;
+    private $selectors = null;
     private $enabled = null ;
 
     private $cid  ;
@@ -135,6 +136,15 @@ class DeviceDto {
 
     public function setFields($fields) {
         $this->fields = $fields;
+    }
+
+
+    public function getSelectors(){
+        return $this->selectors;
+    }
+
+    public function setSelectors($selectors) {
+        $this->selectors = $selectors;
     }
 
     public function isEnabled(): ?bool {

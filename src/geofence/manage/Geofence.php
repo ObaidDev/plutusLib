@@ -56,5 +56,35 @@ final class Geofence implements GeofenceInterface {
 
         return [] ;
     }
+
+    function assignGeofenceToCalc(GeofenceDto $geofence , $userToken):array{
+        $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "calcs") ;
+        $url = $url . "/".($geofence->getCalcsIds()!= null ? join(",",$geofence->getCalcsIds()) : "hello I am Obayd");
+        $url = $url . "/geofences/".($geofence->getIds()!= null ? join(",",$geofence->getIds()) : "hello I am Obayd") ;
+
+        $moreHedersParams = ($geofence->getCid() != null ? ["x-flespi-cid:".$geofence->getCid()] :  []) ;        
+        $curl = CurlHelper::post_with_additional_header($url , NULL , $moreHedersParams , $userToken) ;
+        
+        $response = CurlHelper::excuteCurl($curl);
+
+        return $response ;
+    }
+
+    function assignGeofenceToPlugin(GeofenceDto $geofence , $userToken):array {
+
+        /**
+         ** I used calcs url as base url and I will add to it geofence
+         */
+        $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "plugin") ;
+        $url = $url . "/".($geofence->getpluginsIds()!= null ? join(",",$geofence->getpluginsIds()) : "hello I am Obayd");
+        $url = $url . "/geofences/".($geofence->getIds()!= null ? join(",",$geofence->getIds()) : "hello I am Obayd") ;
+
+        $moreHedersParams = ($geofence->getCid() != null ? ["x-flespi-cid:".$geofence->getCid()] :  []) ;        
+        $curl = CurlHelper::post_with_additional_header($url , NULL , $moreHedersParams , $userToken) ;
+        
+        $response = CurlHelper::excuteCurl($curl);
+
+        return $response ;
+    }
 }
 

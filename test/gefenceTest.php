@@ -121,3 +121,20 @@ $userToken = "AREdJ7wT3vXkiUTH8A2t6edx5CWqiAOGijKPe4w7pjgw3Z11pTikVkFOMq5TQHpW" 
 
 
 // ! get plugins
+
+/**
+ * * test the assignement of geofence to a clacs or plugin
+ */
+
+$geofence = GeofenceDto::emptyConstruct() ;
+$geofence->setPluginsIds([1059393]) ;
+$geofence->setCalcsIds([1702697]) ;
+$geofence->setIds([2894]) ;
+
+
+$res = $facadeGrofence->assignGeofenceToPC($geofence , $userToken) ;
+
+var_dump($res) ; 
+die() ;
+
+
