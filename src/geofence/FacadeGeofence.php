@@ -35,5 +35,14 @@ final class FacadeGeofence
         return $res ;
     }
 
+
+    function assignGeofenceToPC(GeofenceDto $geofenceDto , $userToken): array {
+        $res1 = self::$grefence->assignGeofenceToPlugin($geofenceDto , $userToken) ;
+        $res2 = self::$grefence->assignGeofenceToCalc($geofenceDto , $userToken) ;
+        $res["plugin"] = $res1["result"] ;
+        $res["calc"] = $res2["result"] ; 
+        return $res ;
+    }
+
     
 }

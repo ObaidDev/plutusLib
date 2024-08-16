@@ -877,3 +877,78 @@ early_late :
   ],
   "timezone": "Africa/Casablanca"
 }
+
+
+geofence : 
+
+{
+  "intervals_ttl": 31536000,
+  "update_delay": 30,
+  "update_period": 864000,
+  "update_onchange": true,
+  "messages_source": {
+    "source": "device"
+  },
+  "validate_message": "",
+  "validate_interval": "",
+  "name": "geofence",
+  "selectors": [
+    {
+      "expression": "plugin.geofence.status==true",
+      "method": "boolean",
+      "type": "expression"
+    }
+  ],
+  "intervals_rotate": 0,
+  "counters": [
+    {
+      "method": "first",
+      "name": "position.latitude.in",
+      "parameter": "position.latitude",
+      "type": "parameter"
+    },
+    {
+      "method": "first",
+      "name": "position.longitude.in",
+      "parameter": "position.longitude",
+      "type": "parameter"
+    },
+    {
+      "method": "last",
+      "name": "position.latitude.out",
+      "parameter": "position.latitude",
+      "type": "parameter"
+    },
+    {
+      "method": "last",
+      "name": "position.longitude.out",
+      "parameter": "position.longitude",
+      "type": "parameter"
+    },
+    {
+      "method": "first",
+      "name": "geofence_name",
+      "parameter": "plugin.geofence.name",
+      "type": "parameter"
+    },
+    {
+      "method": "first",
+      "name": "device_id",
+      "parameter": "device.id",
+      "type": "parameter"
+    },
+    {
+      "method": "last",
+      "name": "last_address",
+      "parameter": "wialon.address",
+      "type": "parameter"
+    },
+    {
+      "method": "first",
+      "name": "first_address",
+      "parameter": "wialon.address",
+      "type": "parameter"
+    }
+  ],
+  "timezone": "UTC"
+}

@@ -96,7 +96,7 @@ class Device  implements DeviceInterface
 
         $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "device") ;
         $url = $url ."/". ($deviceDto->getIds() != null ? join("," ,  $deviceDto->getIds()) : "all")
-        ."/settings/all"."?fields=" ;
+        ."/settings/".($deviceDto->getSelectors() != null ? join("," ,  $deviceDto->getSelectors()) : "all")."?fields=" ;
         // ($deviceDto->getFields() !=null ? join(",",$deviceDto->getFields()) : "");
 
         $curl = CurlHelper::get($url , $credentials) ;

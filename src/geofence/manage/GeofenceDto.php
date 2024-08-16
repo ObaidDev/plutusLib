@@ -14,6 +14,13 @@ class GeofenceDto {
     private $priority = null;
     private $cid = null ;
     private $ids;
+    private $calcsIds;
+    private $pluginsIds;
+
+
+    static function emptyConstruct() {
+        return (new GeofenceDto()) ;
+    }
 
     public function getName(): ?string {
         return $this->name;
@@ -29,6 +36,22 @@ class GeofenceDto {
 
     public function setIds($ids): void {
         $this->ids = $ids;
+    }
+
+    public function getCalcsIds() {
+        return $this->calcsIds;
+    }
+
+    public function setCalcsIds($calcsIds): void {
+        $this->calcsIds = $calcsIds;
+    }
+
+    public function getpluginsIds() {
+        return $this->pluginsIds;
+    }
+
+    public function setPluginsIds($pluginsIds): void {
+        $this->pluginsIds = $pluginsIds;
     }
 
     public function getCid() {
