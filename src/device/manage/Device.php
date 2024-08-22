@@ -13,7 +13,9 @@ class Device  implements DeviceInterface
 
         // ["x-flespi-cid"=>$device->getCid()]
         $url = "https://flespi.io/gw/devices" ;
-        $curl = CurlHelper::post_with_additional_header($url , [$device()], ["x-flespi-cid:".$device->getCid()], $credentials) ;
+        $moreHedersParams = ($device->getCid() != null ? ["x-flespi-cid:".$device->getCid()] :  []) ;
+
+        $curl = CurlHelper::post_with_additional_header($url , [$device()], $moreHedersParams, $credentials) ;
         // $curl = CurlHelper::post($url , [$device()], $credentials) ;
 
         $response = CurlHelper::excuteCurl($curl);
@@ -51,14 +53,11 @@ class Device  implements DeviceInterface
 
     function updateDevice(DeviceDto $deviceDto , $userToken):array{
 
-        // url = https://flespi.io/gw/devices/5720023/cid
-        // body : {"cid":1879795}
-        // $url="https://flespi.io/gw/devices/".join(",",$deviceDto->getIds());
-        // var_dump($deviceDto->getFields()) ;
-        // die() ;
         $url= CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "device") ;
         $url = $url."/".join(",",$deviceDto->getIds()). "?fields=" . ($deviceDto->getFields() != null ? join("," , $deviceDto->getFields()) : "") ;
-        $curl =  CurlHelper::put($url , $deviceDto->_update() , $userToken) ;
+        $moreHedersParams = ($deviceDto->getCid() != null ? ["x-flespi-cid:".$deviceDto->getCid()] :  []) ;
+
+        $curl =  CurlHelper::putAdditionalHeader($url , $deviceDto->_update(),$moreHedersParams  , $userToken) ;
 
         $response = CurlHelper::excuteCurl($curl);
 
