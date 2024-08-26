@@ -58,7 +58,7 @@ class GrantDto
     public function __invoke(){
         $data = [
             'name'=> $this->getType()."-".$this->getGid(),
-            'gid' => $this->getGid(),
+            // 'gid' => $this->getGid(),
             'items' => [
                 "type"=>$this->getType()
             ],
