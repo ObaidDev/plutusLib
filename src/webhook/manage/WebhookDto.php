@@ -9,7 +9,7 @@ final class WebhookDto
 
     private $configuration;
     private $triggers;
-    private $enabled;
+    private $enabled = null;
     private $queue_ttl;
     private $metadata;
     private $method = "POST";
@@ -18,7 +18,7 @@ final class WebhookDto
     private $delay ;
     private $name ;
     private $body = '{"data":%payload%}';
-
+    private $fields = ["name" , "enabled" , "id"];
     private $ids ;
 
 
@@ -50,47 +50,47 @@ final class WebhookDto
         return $this->configuration;
     }
 
-    public function getTriggers(): array
+    public function getTriggers(): ?array
     {
         return $this->triggers;
     }
 
-    public function isEnabled(): bool
+    public function isEnabled(): ?bool
     {
         return $this->enabled;
     }
 
-    public function getQueueTtl(): int
+    public function getQueueTtl(): ?int
     {
         return $this->queue_ttl;
     }
 
-    public function getMetadata(): array
+    public function getMetadata(): ?array
     {
         return $this->metadata;
     }
 
-    public function getMethod(): string
+    public function getMethod(): ?string
     {
         return $this->method;
     }
 
-    public function getUri(): string
+    public function getUri(): ?string
     {
         return $this->uri;
     }
 
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function getBody(): string
+    public function getBody(): ?string
     {
         return $this->body;
     }
@@ -102,68 +102,88 @@ final class WebhookDto
 
 
     // Setters
-    public function setConfiguration(?array $configuration): void
+    public function setConfiguration(?array $configuration)
     {
         $this->configuration = $configuration;
+
+        return $this ;
     }
 
-    public function setTriggers(array $triggers): void
+    public function setTriggers(array $triggers)
     {
         $this->triggers = $triggers;
+        return $this ;
     }
 
-    public function setEnabled(bool $enabled): void
+    public function setEnabled(?bool $enabled)
     {
         $this->enabled = $enabled;
+        return $this ;
     }
 
-    public function setQueueTtl(int $queue_ttl): void
+    public function setQueueTtl(int $queue_ttl)
     {
         $this->queue_ttl = $queue_ttl;
+        return $this ;
     }
 
-    public function setMetadata(array $metadata): void
+    public function setMetadata(array $metadata)
     {
         $this->metadata = $metadata;
+        return $this ;
     }
 
-    public function setMethod(string $method): void
+    public function setMethod(string $method)
     {
         $this->method = $method;
+        return $this ;
     }
 
-    public function setUri(string $uri): void
+    public function setUri(string $uri)
     {
         $this->uri = $uri;
+        return $this ;
     }
 
-    public function setType(string $type): void
+    public function setType(string $type)
     {
         $this->type = $type;
+        return $this ;
     }
 
-    public function setName(string $name): void
+    public function setName(string $name)
     {
         $this->name = $name;
+        return $this ;
     }
 
-    public function setBody(string $body): void
+    public function setBody(string $body)
     {
         $this->body = $body;
+        return $this ;
     }
 
-    public function setIds($ids): void
+    public function setIds($ids)
     {
-        $this->ids = $ids;    
+        $this->ids = $ids ;
+        return $this ;
+    }
+
+    public function getFields() {
+        return $this->fields;
+    }
+
+    public function setFields($fields) {
+        $this->fields = $fields;
     }
 
 
     public function _create() : array {
 
         $data =[] ;
-        // var_dump($this->isEnabled()) ;
         ($this->getName() != null) ? $data["name"]=$this->getName():null ;
-
+        ($this->isEnabled() != null) ? $data["enabled"]=$this->isEnabled():null ;
+        
         ($this->getType() != null) ? $data["configuration"]["type"]=$this->getType():null ;
         ($this->getUri() != null) ? $data["configuration"]["uri"]=$this->getUri():null ;
         ($this->getMethod() != null) ? $data["configuration"]["method"]=$this->getMethod():null ;
@@ -172,10 +192,27 @@ final class WebhookDto
         ($this->getTriggers() != null) ? $data["triggers"]=array_map(function ($triger) : array {
             return $triger->_create() ;
         } , $this->getTriggers()):null ;
-        // var_dump($data) ;
-        // die()  ;
+
         return $data ;
 
-        // return $data ;
+    }
+
+    public function _update() : array {
+
+        $data =[] ;
+        ($this->getName() != null) ? $data["name"]=$this->getName():null ;
+        $this->isEnabled() !== null ? $data["enabled"] = $this->isEnabled() : null;
+
+        ($this->getType() != "custom-server") ? $data["configuration"]["type"]=$this->getType():null ;
+        ($this->getUri() != null) ? $data["configuration"]["uri"]=$this->getUri():null ;
+        ($this->getMethod() != "POST") ? $data["configuration"]["method"]=$this->getMethod():null ;
+        ($this->getBody() != '{"data":%payload%}') ? $data["configuration"]["body"]=$this->getBody():null ;
+
+        ($this->getTriggers() != null) ? $data["triggers"]=array_map(function ($triger) : array {
+            return $triger->_create() ;
+        } , $this->getTriggers()):null ;
+
+        return $data ;
+
     }
 }

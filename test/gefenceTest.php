@@ -13,7 +13,7 @@ use Fdvice\geofence\manage\LineDto ;
 // make an object form FacadeGeofence
 
 $facadeGrofence = new FacadeGeofence() ;
-$userToken = "AREdJ7wT3vXkiUTH8A2t6edx5CWqiAOGijKPe4w7pjgw3Z11pTikVkFOMq5TQHpW" ;
+$userToken = "CaaFWLmqLlaXX4tM9B7C9LkGmEgE6EPAoY03SukImT0ksgNE5gBIjSmXcgM0sjhe" ;
 
 
 // create a polygonDto
@@ -127,9 +127,9 @@ $userToken = "AREdJ7wT3vXkiUTH8A2t6edx5CWqiAOGijKPe4w7pjgw3Z11pTikVkFOMq5TQHpW" 
  */
 
 $geofence = GeofenceDto::emptyConstruct() ;
-$geofence->setPluginsIds([1059393]) ;
-$geofence->setCalcsIds([1702697]) ;
-$geofence->setIds([2894]) ;
+$geofence->setPluginsIds([1056778]) ;
+$geofence->setCalcsIds([1705377]) ;
+$geofence->setIds([3239]) ;
 
 
 $res = $facadeGrofence->assignGeofenceToPC($geofence , $userToken) ;

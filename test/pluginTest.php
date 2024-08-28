@@ -10,16 +10,21 @@ use Fdvice\plugins\FacadePlugin ;
 
 
 $facadePlugin = new FacadePlugin() ;
-$userToken = "046sHX9WNku2BEMV07dxKnsBZ76s0UR38nlyWzHYx4pAQcfnIPVLaYVtLS9MEfsG" ;
+$userToken = "701KatdZ91CGSqdMNr3QuV7blh1GVfqZCipn5zUhm6F36tUKcFcS67QswxYJziew" ;
 
-$pluginDto = PluginDto::emptyConstruct() ;
-$deviceDto = DeviceDto::emptyConstruct() ;
+// $pluginDto = PluginDto::emptyConstruct() ;
+// $deviceDto = DeviceDto::emptyConstruct() ;
 
 
 // $response = $facadePlugin->getPlugins($pluginDto , $userToken) ;
 // var_dump($response) ;*
-$pluginDto->setIds([1058264]) ;
-$deviceDto->setIds([5798349]) ;
+// $pluginDto->setIds([1058264]) ;
+// $deviceDto->setIds([5798349]) ;
 
-$response = $facadePlugin->assignDevice($pluginDto , $deviceDto , $userToken) ;
+// $response = $facadePlugin->assignDevice($pluginDto , $deviceDto , $userToken) ;
+
+
+$pluginDto = PluginDto::emptyConstruct();
+$response = $facadePlugin->getPlugins($pluginDto , $userToken) ;
+
 var_dump($response) ;

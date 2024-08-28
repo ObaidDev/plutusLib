@@ -14,7 +14,6 @@ class DeviceDto {
     private ?string $phone = null ;
     private  $ids  ;
     private  $calcs ;
-    // private ?TokenDto $token ;
     private $fields = null;
     private $selectors = null;
     private $enabled = null ;
@@ -178,7 +177,6 @@ class DeviceDto {
 
     public function _update() : array {
         $data =[] ;
-        // var_dump($this->isEnabled()) ;
         ($this->getPhone() != null) ? $data["configuration"]["phone"]=$this->getPhone():null ;
         ($this->getIdent() !== null) ? $data["configuration"]["ident"] = $this->getIdent() : null;
         ($this->getMessages_ttl() != null) ? $data["messages_ttl"]=$this->getMessages_ttl():null ;
@@ -186,9 +184,7 @@ class DeviceDto {
         ($this->isEnabled() !== null) ? $data["enabled"] = $this->isEnabled() : null;
         ($this->getDevice_type_id() != null) ? $data["device_type_id"] = $this->getDevice_type_id() : null;
         ($this->getName() !== null) ? $data["name"] = $this->getName() : null;
-        
-        // var_dump($data) ;
-        // die()  ;
+
         return $data ;
     }
 }

@@ -12,21 +12,24 @@ final class WebhookFacade
     private static WebhookInterface $webhook;
 
 
-    function __construct()
+    public function __construct()
     {
         self::$webhook =  new Webhook() ;
     }
 
-    function addWebhook(WebhookDto $webhookDto , $userToken) : array {
+    public function addWebhook(WebhookDto $webhookDto , $userToken) : array {
 
-        $res = self::$webhook->addWebhook($webhookDto , $userToken) ;
-        return $res ;
+        return self::$webhook->addWebhook($webhookDto , $userToken) ;
         
     }
 
-    function deleteWebhook(WebhookDto $webhookDto , $userToken) : array {
-        $res = self::$webhook->deleteWebhook($webhookDto , $userToken) ;
-        return $res ;
+    public function deleteWebhook(WebhookDto $webhookDto , $userToken) : array {
+        return self::$webhook->deleteWebhook($webhookDto , $userToken) ;
+    }
+
+    public function updateWebhook(WebhookDto $webhookDto , $userToken) : array {
+        // $res =  ;
+        return self::$webhook->updateWebhook($webhookDto , $userToken) ;
     }
     
 }

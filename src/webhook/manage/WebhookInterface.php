@@ -6,6 +6,7 @@ interface WebhookInterface {
 
     public  function addWebhook(WebhookDto $webhookDto , $credentials):array;
     public  function deleteWebhook(WebhookDto $webhookDto , $credentials):array;
+    public  function updateWebhook(WebhookDto $webhookDto , $credentials):array;
 
 
 
