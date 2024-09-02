@@ -20,6 +20,7 @@ final class WebhookDto
     private $body = '{"data":%payload%}';
     private $fields = ["name" , "enabled" , "id"];
     private $ids ;
+    private $headers=[] ;
 
 
 
@@ -100,6 +101,10 @@ final class WebhookDto
         return $this->ids;
     }
 
+    public function getHeaders() :array {
+        return $this->headers ;
+    }
+
 
     // Setters
     public function setConfiguration(?array $configuration)
@@ -177,17 +182,33 @@ final class WebhookDto
         $this->fields = $fields;
     }
 
+    public function setHead($key , $value) {
+        // $mainHeader = [];
+        $mainHeader= [
+            "name" => $key,
+            "value" => $value
+        ];
+
+        // $headers = $this->getHeaders();  // Get the current headers array
+        $headers =[] ;        // Add the new header to the array
+        array_push($headers , $mainHeader) ;
+        $this->headers = $headers;       // Set the modified headers back to the class property
+
+        return $this;
+    }
+
 
     public function _create() : array {
 
         $data =[] ;
         ($this->getName() != null) ? $data["name"]=$this->getName():null ;
         ($this->isEnabled() != null) ? $data["enabled"]=$this->isEnabled():null ;
-        
+
         ($this->getType() != null) ? $data["configuration"]["type"]=$this->getType():null ;
         ($this->getUri() != null) ? $data["configuration"]["uri"]=$this->getUri():null ;
         ($this->getMethod() != null) ? $data["configuration"]["method"]=$this->getMethod():null ;
         ($this->getBody() != null) ? $data["configuration"]["body"]=$this->getBody():null ;
+        ($this->getHeaders() != null) ? $data["configuration"]["headers"]=array_values($this->getHeaders()):null ;
 
         ($this->getTriggers() != null) ? $data["triggers"]=array_map(function ($triger) : array {
             return $triger->_create() ;
@@ -206,6 +227,8 @@ final class WebhookDto
         ($this->getType() != "custom-server") ? $data["configuration"]["type"]=$this->getType():null ;
         ($this->getUri() != null) ? $data["configuration"]["uri"]=$this->getUri():null ;
         ($this->getMethod() != "POST") ? $data["configuration"]["method"]=$this->getMethod():null ;
+        ($this->getHeaders() != null) ? $data["configuration"]["headers"]=array_values($this->getHeaders()):null ;
+
         ($this->getBody() != '{"data":%payload%}') ? $data["configuration"]["body"]=$this->getBody():null ;
 
         ($this->getTriggers() != null) ? $data["triggers"]=array_map(function ($triger) : array {

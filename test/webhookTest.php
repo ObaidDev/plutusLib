@@ -19,7 +19,8 @@ $webhookFacade = new WebhookFacade() ;
 // $res = $webhookFacade->addWebhook($webhookDto , $userToken) ;
 // var_dump($res) ;
 
-$webhookDto = WebhookDto::emptyConstruct()->setEnabled(true)->setIds([6982]);
-$response = $webhookFacade->updateWebhook($webhookDto , $userToken);
+$webhookDto = WebhookDto::emptyConstruct();
+$webhookDto->setHead("signture" , "fjqskdjfklqsjjflj") ;
+// $response = $webhookFacade->updateWebhook($webhookDto , $userToken);
 
-var_dump($response) ;
+var_dump($webhookDto->getHeaders()) ;
