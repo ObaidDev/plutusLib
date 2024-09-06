@@ -28,4 +28,18 @@ final class AssignDevice implements AssignDeviceInterface
 
         return  [] ;
     }
+
+    function unAssignDevice(PluginDto $pluginDto , DeviceDto $deviceDto,$userToken) : array {
+        $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "plugin") ;
+        $url = $url . "/".join(",",$pluginDto->getIds()) ;
+        $url = $url ."/devices/" .join(",",$deviceDto->getIds()) ;
+
+        $moreHedersParams = ($pluginDto->getCid() != null ? ["x-flespi-cid:".$pluginDto->getCid()] :  []) ;
+
+        $curl = CurlHelper::delete($url , $userToken) ;
+        
+        $response = CurlHelper::excuteCurl($curl);
+
+        return $response ;
+    }
 }

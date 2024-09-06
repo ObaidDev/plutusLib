@@ -13,6 +13,7 @@ class UserDto {
     private ?TokenDto $token = null;
     private $realmId;
     private $realmPublicId;
+    private $ids ;
 
     public function __construct() {
     }
@@ -66,6 +67,7 @@ class UserDto {
 
     public function setRealmId($realmId) {
         $this->realmId = $realmId;
+        return $this ;
     }
 
     public function getRealmPublicId() {
@@ -90,6 +92,18 @@ class UserDto {
 
     public function setToken(TokenDto $token) {
         $this->token = $token ;
+    }
+
+    /**
+     * @
+     */
+    public function getIds() {
+        return $this->ids;
+    }
+
+    public function setIds($ids) {
+        $this->ids = $ids;
+        return $this ;
     }
 
     public function __invoke() {

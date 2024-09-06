@@ -77,7 +77,11 @@ final class FacadeRealm
     public function addUserRealm(UserDto $user  , $userToken){
         $res = self::$user->realmCreateUser($user  , $userToken) ;
         return $res ;
-    } 
+    }
+
+    public function deleteRealmUser(UserDto $user , $userToken) : array {
+        return  self::$user->realmDeleteUser($user  , $userToken) ;
+    }
 
 
     public function login(UserDto $user) : array {
@@ -88,7 +92,6 @@ final class FacadeRealm
     function getRealm(RealmDto $realmDto , $credentials) : array {
         return self::$realm->getRealm($realmDto , $credentials) ;
     }
-
    
 
 
