@@ -33,6 +33,39 @@ final class CalculateInterval  implements CalculateIntervalInterface
       // return [$url] ;
   }
 
+  /**
+   * 
+   * @V2
+   */
+
+  function getIntervalesOfDevice_V2(CalculateIntervalDto $dto , $credentials) : array {
+
+    // $calcsSelector = $dataQuery["calcs"] ;
+    // $calcDeviceIntervalsSelector  = [] ;
+    // $calcDevicesSelector  = $dataQuery["calc.devices"] ;
+    // $filter  = $dataQuery["data"] ;
+    // $filter["fields"] = array_key_exists("fields" ,$dataQuery) ? join("," ,$dataQuery["fields"]):"" ;
+    // $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "calcs") ;
+
+    // $_filter = $dto->getFilter() ;
+    // $_filter["fields"] = $dto->getFields();
+    // $dto->setFilter($_filter) ;
+
+    $url = "https://flespi.io/gw/calcs/".($dto->getClcs() != null ?join(",",$dto->getClcs()) : "all")
+    ."/devices/".($dto->getUnits() != null ?join(",",$dto->getUnits()) : "all")
+    ."/intervals/".($dto->getIds() != null ?join(",",$dto->getIds()) : "all")
+    ."?data=".urlencode(json_encode($dto->getData()));
+
+    
+    // var_dump($url) ;
+    // die() ;
+    $curl = CurlHelper::get($url , $credentials);
+    $response = CurlHelper::excuteCurl($curl) ;
+
+    return $response ;
+    // return [$url] ;
+}
+
   function getLastIntervaleOfDevice($dataQuery , $credentials) : array{
       $calcsSelector = $dataQuery["calcs"] ;
       // $calcDeviceIntervalsSelector  = [] ;

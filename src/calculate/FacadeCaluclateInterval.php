@@ -3,6 +3,7 @@
 namespace Fdvice\calculate ;
 
 use Fdvice\calculate\calculateIntervals\CalculateInterval;
+use Fdvice\calculate\calculateIntervals\CalculateIntervalDto;
 use Fdvice\calculate\calculateIntervals\CalculateIntervalInterface;
 use Fdvice\calculate\manage\CalculatorInterface ;
 use Fdvice\calculate\manage\Calculator ;
@@ -32,10 +33,10 @@ final class FacadeCaluclateInterval
         // $jsonString = '{"calcs.selector": [],"calc.device.intervals.selector": [],"calc.devices.selector":[],"data":{"filter":""}}';
 
         // $dataQuery = json_decode($jsonString , true) ;
-        
+
         if (!$is_last) {
             $filter = FacadeCaluclateInterval::buildFilter($data_in);
-            
+
             $data_in["data"]["filter"] = $filter ;
             // $data_in["data"]["fields"] = $filter ;
             // var_dump($data_in);
@@ -43,7 +44,7 @@ final class FacadeCaluclateInterval
             $data_in["calcs"]= $data_in["report"] ;
             $data_in["calc.devices"] = $data_in["units"] ;
 
-    
+
             $res = self::$calculateInterval->getIntervalesOfDevice($data_in , $userToken);
             return $res ;
         }
@@ -51,7 +52,7 @@ final class FacadeCaluclateInterval
         {
             $data_in["calc.devices"] = $data_in["units"] ;
             $data_in["calcs"]= $data_in["report"] ;
-    
+
             $res = self::$calculateInterval->getLastIntervaleOfDevice($data_in , $userToken);
             return $res ;
         }
@@ -62,7 +63,28 @@ final class FacadeCaluclateInterval
 
 
     }
-    
+
+
+    function executeReport_V2(CalculateIntervalDto $dto , $userToken , $is_last = false)  {
+
+
+        if (!$is_last) {
+
+
+          $filter = $dto->getFilter() != null ? FacadeCaluclateInterval::buildFilter($dto->getFilter()) : null ;
+
+          $dto->setFilter($filter) ;
+
+          return self::$calculateInterval->getIntervalesOfDevice_V2($dto , $userToken);
+        }
+        else
+        {
+
+
+            $res = self::$calculateInterval->getLastIntervaleOfDevice($dto , $userToken);
+            return $res ;
+        }
+    }
 
 
 
@@ -93,7 +115,7 @@ final class FacadeCaluclateInterval
         // $GLOBALS["calculators"]
         $jsonString = file_get_contents($GLOBALS["calculators"]);
         $reportesRes = self::$caluctor->addCalculators(json_decode($jsonString, true) , $userToken) ;
-        
+
         return $reportesRes ;
     }
 

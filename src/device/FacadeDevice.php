@@ -55,8 +55,7 @@ class FacadeDevice {
     }
 
     function getDeviceinfo(DeviceDto $deviceDto, $userToken) {
-        $res = self::$device->getDeviceinfo($deviceDto , $userToken) ;
-        return $res ;
+        return self::$device->getDeviceinfo($deviceDto , $userToken) ;
     }
 
     function deleteDevice($selector, $usertoken)  {
@@ -137,15 +136,21 @@ class FacadeDevice {
     // }
 
     function dirctlyExcuteReport (DeviceDto $deviceDto , SelectorsInterface $selector , $userToken) : array {
-        $res = self::$dirctlyRestCalcs->dirctlyExcuteReport($deviceDto , $selector ,$userToken) ;
-        return $res ;
+        return self::$dirctlyRestCalcs->dirctlyExcuteReport($deviceDto , $selector ,$userToken) ;
     }
 
     // settings
 
     function getSettings(DeviceDto $deviceDto , $userToken) : array {
 
-        $res = self::$device->getSettings($deviceDto , $userToken) ;
-        return $res ;
+        return self::$device->getSettings($deviceDto , $userToken) ;
+        
+    }
+
+
+    function getDevicesTelemetry(DeviceDto $deviceDto, $userToken) : array {
+        
+        return  self::$device->getDevicesTelemetry($deviceDto , $userToken) ;
+        
     }
 }

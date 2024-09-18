@@ -17,4 +17,5 @@ interface DeviceInterface {
     // this function will return all device info like protcol id , id and name of the device.
     // aslo if you want to Get collection of device types withing specified channel protocols.
     function getListDevices($data_Query , $credentials):array;
+    function getDevicesTelemetry(DeviceDto $deviceDto , $credentials):array;
 }
