@@ -97,7 +97,7 @@ class FacadeChannel
             throw new \Exception('Failed to write data to file...');
         }
 
-        
+
 
         // return $res ;
     }
@@ -160,7 +160,7 @@ class FacadeChannel
             unlink($tempFilePath);
             throw new \Exception("ID not found in the file!");
         }
-        
+
     }
 
     function getChannelinfoUsingDeiceNdjson(ChannelDto $channeldto):array{
@@ -195,13 +195,10 @@ class FacadeChannel
             // $response = $this->createChannel($data,$userToken) ;
             $this->saveChannelsData($userToken);
             $response = self::$channel->getChannelinfoUsingDevice($channeldto  , $userToken , $GLOBALS["channel-data-path"]) ;
-            
+
             // return $response["result"][0] ;
             return $response ;
         };
-
-        // $response can be the target channel or the error .
-
 
     }
 }

@@ -121,4 +121,22 @@ class Device  implements DeviceInterface
         return $response ;
 
     }
+
+
+    function getDevicesMessages(DeviceDto $deviceDto , $credentials):array{
+
+        $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "device") ;
+        $url = $url ."/". ($deviceDto->getIds() != null ? $deviceDto->getIds() : "all")."/messages/".
+        "?data=".urlencode(json_encode($deviceDto->getData()));
+
+        // var_dump($url) ;
+        // die() ;
+        $curl = CurlHelper::get($url , $credentials) ;
+
+        $response = CurlHelper::excuteCurl($curl);
+
+        return $response ;
+
+    }
+
 }

@@ -72,8 +72,10 @@ final class FacadeCaluclateInterval
 
 
           $filter = $dto->getFilter() != null ? FacadeCaluclateInterval::buildFilter($dto->getFilter()) : null ;
-
           $dto->setFilter($filter) ;
+
+          // var_dump($filter ) ;
+          // die() ;
 
           return self::$calculateInterval->getIntervalesOfDevice_V2($dto , $userToken);
         }

@@ -18,4 +18,5 @@ interface DeviceInterface {
     // aslo if you want to Get collection of device types withing specified channel protocols.
     function getListDevices($data_Query , $credentials):array;
     function getDevicesTelemetry(DeviceDto $deviceDto , $credentials):array;
+    function getDevicesMessages(DeviceDto $deviceDto , $credentials):array;
 }

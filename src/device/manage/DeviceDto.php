@@ -17,6 +17,9 @@ class DeviceDto {
     private $fields = null;
     private $selectors = null;
     private $enabled = null ;
+    private $filter = null ;
+    private ?int $from ;
+    private ?int $to ;
 
     private $cid  ;
 
@@ -137,6 +140,31 @@ class DeviceDto {
         $this->fields = $fields;
     }
 
+    public function getFrom() {
+        return $this->from;
+    }
+
+    public function setFrom($from) {
+        $this->from = $from;
+    }
+
+
+    public function getTo() {
+        return $this->to;
+    }
+
+    public function setTo($to) {
+        $this->to = $to;
+    }
+
+    public function getFilter() {
+        return $this->filter;
+    }
+
+    public function setFilter($filter) {
+        $this->filter = $filter;
+    }
+
 
     public function getSelectors(){
         return $this->selectors;
@@ -184,6 +212,20 @@ class DeviceDto {
         ($this->isEnabled() !== null) ? $data["enabled"] = $this->isEnabled() : null;
         ($this->getDevice_type_id() != null) ? $data["device_type_id"] = $this->getDevice_type_id() : null;
         ($this->getName() !== null) ? $data["name"] = $this->getName() : null;
+
+        return $data ;
+    }
+
+
+    /**
+     * @see it use to fitler prupose
+     */
+    public function getData() {
+        $data =[] ;
+        ($this->getFilter() != null) ? $data["filter"]=$this->getFilter():null ;
+        ($this->getFields() != null) ? $data["fields"]=$this->getFields():null ;
+        ($this->getFrom() != null) ? $data["from"]=$this->getFrom():null ;
+        ($this->getTo() != null) ? $data["to"]=$this->getTo():null ;
 
         return $data ;
     }
