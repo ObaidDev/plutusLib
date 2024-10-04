@@ -223,7 +223,7 @@ class DeviceDto {
     public function getData() {
         $data =[] ;
         ($this->getFilter() != null) ? $data["filter"]=$this->getFilter():null ;
-        ($this->getFields() != null) ? $data["fields"]=$this->getFields():null ;
+        ($this->getFields() != null) ? $data["fields"]=join(",",$this->getFields()):null ;
         ($this->getFrom() != null) ? $data["from"]=$this->getFrom():null ;
         ($this->getTo() != null) ? $data["to"]=$this->getTo():null ;
 

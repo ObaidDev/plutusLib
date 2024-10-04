@@ -153,4 +153,10 @@ class FacadeDevice {
         return  self::$device->getDevicesTelemetry($deviceDto , $userToken) ;
         
     }
+
+    function getDevicesMessages(DeviceDto $deviceDto, $userToken) : array {
+        
+        return  self::$device->getDevicesMessages($deviceDto , $userToken) ;
+        
+    }
 }
