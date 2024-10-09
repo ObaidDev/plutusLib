@@ -44,5 +44,9 @@ final class FacadeGeofence
         return $res ;
     }
 
+
+    function getGeofencesInfo(GeofenceDto $geofenceDto ,string $userToken) : array {
+        return self::$grefence->getGeofences($geofenceDto , $userToken) ;
+    }
     
 }

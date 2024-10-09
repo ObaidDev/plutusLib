@@ -86,5 +86,15 @@ final class Geofence implements GeofenceInterface {
 
         return $response ;
     }
+
+
+    function getGeofences(GeofenceDto $geofenceDto , $userToken) : array{
+        $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "geofence") ;
+        $url = $url . "/".join(",",$geofenceDto->getIds()) ;
+        $url = $url . ($geofenceDto->getFields() != null ? "?fields=".join("," , $geofenceDto->getFields()) : null) ;
+
+        return CurlHelper::excuteCurl(
+                        CurlHelper::get($url , $userToken)) ;
+    }
 }
 

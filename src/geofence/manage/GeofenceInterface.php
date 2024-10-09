@@ -11,6 +11,8 @@ interface GeofenceInterface {
 
     function updateGeofence(GeofenceDto $geofence , $userToken):array ;
 
+    function getGeofences(GeofenceDto $geofence , $userToken):array ;
+
     function assignGeofenceToCalc(GeofenceDto $geofence , $userToken):array ;
     function assignGeofenceToPlugin(GeofenceDto $geofence , $userToken):array ;
 }

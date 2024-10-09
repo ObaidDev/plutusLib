@@ -16,6 +16,8 @@ class GeofenceDto {
     private $ids;
     private $calcsIds;
     private $pluginsIds;
+    private $fields = null;
+
 
 
     static function emptyConstruct() {
@@ -97,7 +99,13 @@ class GeofenceDto {
         $this->priority = $priority;
     }
     
+    public function getFields() {
+        return $this->fields;
+    }
 
+    public function setFields($fields) {
+        $this->fields = $fields;
+    }
 
     function _create() : array {
         
