@@ -34,12 +34,17 @@ final class MemoryTest
     }
 
 
-    static function findObjectById($objects, $searchId) {
+    static function findObjectsById($objects, $searchId) {
+
+        $matchedObjects = [];
+
+        // Iterate through all objects to find matches
         foreach ($objects as $object) {
             if ($object->id === $searchId) {
-                return $object;
+                $matchedObjects[] = $object;
             }
         }
-        return null;
+
+        return $matchedObjects;
     }
 }

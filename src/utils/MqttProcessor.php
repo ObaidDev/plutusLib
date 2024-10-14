@@ -82,17 +82,20 @@ class MqttProcessor
 		 * we will index the device_id and calc_id to seepd up the query serching
 		 */
 
-		$var = MemoryTest::findObjectById($this->objectList, MemoryTest::getCalcId($topic));
-
-
-		if (
-			$var != null &&
-			MqttProcessor::expressionLanguageEvaluate($var->condition , json_decode($msg, true))
-			
-		) {
+		$vars = MemoryTest::findObjectsById($this->objectList, MemoryTest::getCalcId($topic));
+		
+		foreach ($vars as $object) {
 			# code...
-			echo ("Send✅✅✅✅\n\n");
-		};
+			if (
+				$object != null &&
+				MqttProcessor::expressionLanguageEvaluate($object->condition , json_decode($msg, true))
+				
+			) {
+				# code...
+				echo ("Send✅✅✅✅\n\n");
+			};
+		}
+
 
 		$endMemory = memory_get_usage();
 		$memoryUsed = $endMemory - $startMemory;
