@@ -21,6 +21,8 @@ class DeviceDto {
     private ?int $from ;
     private ?int $to ;
 
+    private array $metadata = [];
+
     private $cid  ;
 
     public function __construct($name, $ident, $device_type_id) {
@@ -183,6 +185,15 @@ class DeviceDto {
         $this->enabled = $enabled;
     }
 
+
+    public function getMetaData() {
+        return $this->metadata;
+    }
+
+    public function addMetaData(string $key , $value) {
+        $this->metadata[$key] = $value ;
+    }
+
     public function __invoke() {
         $data = [
             'configuration' => [
@@ -212,6 +223,7 @@ class DeviceDto {
         ($this->isEnabled() !== null) ? $data["enabled"] = $this->isEnabled() : null;
         ($this->getDevice_type_id() != null) ? $data["device_type_id"] = $this->getDevice_type_id() : null;
         ($this->getName() !== null) ? $data["name"] = $this->getName() : null;
+        // ($this->getMetaData() !== null) ? $data["metadata"] = $this->getMetaData() : null;
 
         return $data ;
     }

@@ -8,10 +8,6 @@ class Device  implements DeviceInterface
 {
 
     function addDevice($device, $credentials):array{
-        // echo json_encode(new Device($in_data), JSON_PRETTY_PRINT);
-        // echo "data json encode using just data dirctly".json_encode($in_data, JSON_PRETTY_PRINT);
-
-        // ["x-flespi-cid"=>$device->getCid()]
         $url = "https://flespi.io/gw/devices" ;
         $moreHedersParams = ($device->getCid() != null ? ["x-flespi-cid:".$device->getCid()] :  []) ;
 
@@ -28,7 +24,7 @@ class Device  implements DeviceInterface
         // $selector = $dataQuery["selector"] ;
 
         $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "device") ;
-        $url = $url ."/". ($deviceDto->getIds() != null ? $deviceDto->getIds() : "all")."?fields=".
+        $url = $url ."/". ($deviceDto->getIds() != null ? join("," ,$deviceDto->getIds()) : "all")."?fields=".
         ($deviceDto->getFields() != null ?join(",",$deviceDto->getFields()) : "all");
 
         $curl = CurlHelper::get($url , $credentials) ;
@@ -54,7 +50,9 @@ class Device  implements DeviceInterface
     function updateDevice(DeviceDto $deviceDto , $userToken):array{
 
         $url= CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "device") ;
-        $url = $url."/".join(",",$deviceDto->getIds()). "?fields=" . ($deviceDto->getFields() != null ? join("," , $deviceDto->getFields()) : "") ;
+        $url = $url."/".($deviceDto->getIds() != null ? join(",",$deviceDto->getIds()) : "all") ;
+        $url = $url . "?fields=" . ($deviceDto->getFields() != null ? join("," , $deviceDto->getFields()) : "") ;
+        
         $moreHedersParams = ($deviceDto->getCid() != null ? ["x-flespi-cid:".$deviceDto->getCid()] :  []) ;
 
         $curl =  CurlHelper::putAdditionalHeader($url , $deviceDto->_update(),$moreHedersParams  , $userToken) ;
@@ -110,7 +108,7 @@ class Device  implements DeviceInterface
 
         $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "device") ;
         $url = $url ."/". ($deviceDto->getIds() != null ? $deviceDto->getIds() : "all")."/telemetry/".
-        ($deviceDto->getFields() != null ?join(",",$deviceDto->getFields()) : "all");
+        ($deviceDto->getFields() != null ? join(",",$deviceDto->getFields()) : "all");
 
         // var_dump($url) ;
         // die() ;

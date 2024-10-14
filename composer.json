@@ -18,11 +18,13 @@
   "repositories": [
       {
           "type": "vcs",
-          "url": "https://github.com/Sof-Engine-Hour/Plutus-Flespi"
+          "url": "https://github.com/Sof-Engine-Hour/plutusLib.git"
       }
   ],
   "require": {
-      "php": "^8.3.7"
+    "php": "^8.3.7",
+    "bluerhinos/phpmqtt": "^1.0",
+    "symfony/expression-language": "^7.1"
   },
   "license": "MIT"
 }
