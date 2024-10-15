@@ -21,12 +21,18 @@ final class MemoryTest
 
     static function loadObjects(int $num_records) {
         $objectList = [];
-
-        for ($i = 0; $i <  $num_records; $i++) {
-            $objectList[] = MemoryTest::createObject();
+    
+        for ($i = 0; $i < $num_records; $i++) {
+            $object = MemoryTest::createObject();
+            
+            if (!isset($objectList[$object->id])) {
+                $objectList[$object->id] = [];
+            }
+            
+            $objectList[$object->id][] = $object;
         }
 
-        return $objectList ;
+        return $objectList;
     }
 
     static function getCalcId(string $topic) : int {
@@ -35,16 +41,6 @@ final class MemoryTest
 
 
     static function findObjectsById($objects, $searchId) {
-
-        $matchedObjects = [];
-
-        // Iterate through all objects to find matches
-        foreach ($objects as $object) {
-            if ($object->id === $searchId) {
-                $matchedObjects[] = $object;
-            }
-        }
-
-        return $matchedObjects;
+        return $objects[$searchId] ?? null;
     }
 }

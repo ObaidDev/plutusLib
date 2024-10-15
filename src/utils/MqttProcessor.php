@@ -29,6 +29,8 @@ class MqttProcessor
 		$this->objectList = MemoryTest::loadObjects($num_records);
 		self::$expressionLanguage = new ExpressionLanguage() ;
 
+		// var_dump(json_encode($this->objectList)) ;
+		// die() ;
 		$endMemory = memory_get_usage();
 
 		$memoryUsed = $endMemory - $startMemory;
@@ -63,6 +65,7 @@ class MqttProcessor
 		$this->subscribe($topics);
 
 		while ($this->mqtt->proc()) {
+			usleep(10000);
 		}
 
 		$this->mqtt->close();
