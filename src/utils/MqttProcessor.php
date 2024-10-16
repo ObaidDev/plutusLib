@@ -23,10 +23,10 @@ class MqttProcessor
 	private static $expressionLanguage ;
 
 
-	public function __construct(int $num_records)
+	public function __construct()
 	{
 		$startMemory = memory_get_usage();
-		$this->objectList = MemoryTest::loadObjects($num_records);
+		$this->objectList = MemoryTest::loadObjects(100);
 		self::$expressionLanguage = new ExpressionLanguage() ;
 
 		// var_dump(json_encode($this->objectList)) ;
@@ -34,7 +34,7 @@ class MqttProcessor
 		$endMemory = memory_get_usage();
 
 		$memoryUsed = $endMemory - $startMemory;
-		echo "Memory used by {$num_records} objects: " . ($memoryUsed / 1024) . " KB\n";
+		echo "Memory used by {100} objects: " . ($memoryUsed / 1024) . " KB\n";
 	}
 
 	private  function prepareConnection()
@@ -73,40 +73,46 @@ class MqttProcessor
 
 	function processMessage($topic, $msg)
 	{
-		$startMemory = memory_get_usage();
 
-		echo 'Msg Recieved: ' . date('r') . "\n";
-		echo "Topic: {$topic}\n\n";
-		echo "Mesage 🔖🔖🔖🔖: {$msg}\n\n";
+		// var_dump($this->objectList) ;
+		// die() ;
+		// $startMemory = memory_get_usage();
 
-		/**
-		 * 
-		 * @ Start Process Block
-		 * we will index the device_id and calc_id to seepd up the query serching
-		 */
+		// echo 'Msg Recieved: ' . date('r') . "\n";
+		// echo "Topic: {$topic}\n\n";
+		// echo "Mesage 🔖🔖🔖🔖: {$msg}\n\n";
+
+		// /**
+		//  * 
+		//  * @ Start Process Block
+		//  * we will index the device_id and calc_id to seepd up the query serching
+		//  */
 
 		$vars = MemoryTest::findObjectsById($this->objectList, MemoryTest::getCalcId($topic));
+		// $vars = MemoryTest::findObjectsById($this->objectList, $calc_id);
 		
-		foreach ($vars as $object) {
-			# code...
-			if (
-				$object != null &&
-				MqttProcessor::expressionLanguageEvaluate($object->condition , json_decode($msg, true))
+		// var_dump(MemoryTest::getCalcId($topic)."🔖🔖🔖🔖") ;
+		// die() ;
+		// foreach ($vars as $object) {
+		// 	# code...
+		// 	if (
+		// 		$object != null &&
+		// 		MqttProcessor::expressionLanguageEvaluate($object->condition , json_decode($msg, true))
 				
-			) {
-				# code...
-				echo ("Send✅✅✅✅\n\n");
-			};
-		}
+		// 	) {
+		// 		# code...
+		// 		echo ("Send✅✅✅✅\n\n");
+		// 	};
+		// }
 
 
-		$endMemory = memory_get_usage();
-		$memoryUsed = $endMemory - $startMemory;
-		echo "Memory used at the end: " . ($memoryUsed / 1024) . " KB\n";
+		// $endMemory = memory_get_usage();
+		// $memoryUsed = $endMemory - $startMemory;
+		// echo "Memory used at the end: " . ($memoryUsed / 1024) . " KB\n";
 
-		/**
-		 * 
-		 * @ End Process Block
-		 */
+		// /**
+		//  * 
+		//  * @ End Process Block
+		//  */
 	}
 }

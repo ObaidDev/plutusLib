@@ -19,6 +19,19 @@ class Device  implements DeviceInterface
         return $response ;
 
     }
+    
+
+    function addDevices($devices  , $fields, $credentials):array{
+
+        // $moreHedersParams = ($device->getCid() != null ? ["x-flespi-cid:".$device->getCid()] :  []) ;
+        $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "device") ;
+        $url =$url ."?fields=".($fields != null ?join(",",$fields) : "all") ;
+
+        
+
+        return CurlHelper::excuteCurl(CurlHelper::post($url , $devices, $credentials)) ;
+
+    }
 
     function getDeviceinfo(DeviceDto $deviceDto , $credentials):array {
         // $selector = $dataQuery["selector"] ;

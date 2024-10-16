@@ -119,22 +119,6 @@ class FacadeDevice {
     }
 
 
-    // setttings methods .
-    // function updateSettings($dataQuery, $in_data):array{
-    //     $res = $this->settings->updateSettings($dataQuery, $in_data, $GLOBALS["Token"]);
-    //     return $res ;
-    // }
-
-    // function deleteSettings($dataQuery):array{
-    //     $res = $this->settings->deleteSettings($dataQuery , $GLOBALS["Token"]);
-    //     return $res ;
-    // }
-
-    // function getSettingsinfo($dataQuery, $Usertoken):array{
-    //     $res = $this->settings->getSettingsinfo($dataQuery , $GLOBALS["Token"]);
-    //     return $res ;
-    // }
-
     function dirctlyExcuteReport (DeviceDto $deviceDto , SelectorsInterface $selector , $userToken) : array {
         return self::$dirctlyRestCalcs->dirctlyExcuteReport($deviceDto , $selector ,$userToken) ;
     }
@@ -158,5 +142,11 @@ class FacadeDevice {
         
         return  self::$device->getDevicesMessages($deviceDto , $userToken) ;
         
+    }
+
+    function addDevices($devices  , $fields, $credentials):array{
+        
+        return self::$device->addDevices($devices  , $fields, $credentials) ;
+
     }
 }

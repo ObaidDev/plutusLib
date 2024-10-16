@@ -55,6 +55,7 @@ class DeviceDto {
 
     public function setName($name) {
         $this->name = $name;
+        return $this ;
     }
 
     public function getIdent() {
@@ -63,6 +64,7 @@ class DeviceDto {
 
     public function setIdent($ident) {
         $this->ident = $ident;
+        return $this ;
     }
 
     public function getDevice_type_id() {
@@ -71,6 +73,7 @@ class DeviceDto {
 
     public function setDevice_type_id($device_type_id) {
         $this->device_type_id = $device_type_id;
+        return $this ;
     }
 
     // realm id
