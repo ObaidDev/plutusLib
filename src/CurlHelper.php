@@ -67,6 +67,7 @@ final class CurlHelper
                 "Content-Type: application/json" ,
                 "Accept: */*"
             ],
+            CURLOPT_SSL_VERIFYPEER => true ,
         ]);
 
         return $curl ;
@@ -102,6 +103,7 @@ final class CurlHelper
             CURLOPT_CUSTOMREQUEST => "POST",
             CURLOPT_POSTFIELDS => json_encode($in_data, JSON_PRETTY_PRINT),
             CURLOPT_HTTPHEADER => $headers ,
+            CURLOPT_SSL_VERIFYPEER => true ,
             // CURLOPT_VERBOSE => true,  // Enable verbose output
             // CURLOPT_STDERR => $verbose // Redirect verbose output to the specified stream
         ]);
@@ -124,6 +126,7 @@ final class CurlHelper
                 "Authorization: ".$credentials,
                 "Accept: */*"
             ],
+            CURLOPT_SSL_VERIFYPEER => true ,
         ]);
 
         return $curl ;
@@ -142,6 +145,7 @@ final class CurlHelper
                 "Content-Type: application/json" ,
                 "Accept: */*"
             ],
+            CURLOPT_SSL_VERIFYPEER => true ,
         ]);
 
         return $curl ;
@@ -162,6 +166,7 @@ final class CurlHelper
                 "Content-Type: application/json" ,
                 "Accept: */*"
             ],
+            CURLOPT_SSL_VERIFYPEER => true ,
         ]);
 
         return $curl ;
@@ -196,6 +201,7 @@ final class CurlHelper
             CURLOPT_CUSTOMREQUEST => "PUT",
             CURLOPT_POSTFIELDS => json_encode($in_data, JSON_PRETTY_PRINT),
             CURLOPT_HTTPHEADER => $headers ,
+            CURLOPT_SSL_VERIFYPEER => true ,
         ]);
 
         return $curl ;

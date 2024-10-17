@@ -36,8 +36,6 @@ class Device  implements DeviceInterface
     }
 
     function getDeviceinfo(DeviceDto $deviceDto , $credentials):array {
-        // $selector = $dataQuery["selector"] ;
-
         $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "device") ;
         $url = $url ."/". ($deviceDto->getIds() != null ? join("," ,$deviceDto->getIds()) : "all")."?fields=".
         ($deviceDto->getFields() != null ?join(",",$deviceDto->getFields()) : "all");
