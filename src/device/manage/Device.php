@@ -21,15 +21,17 @@ class Device  implements DeviceInterface
     }
     
 
-    function addDevices($devices  , $fields, $credentials):array{
-
-        // $moreHedersParams = ($device->getCid() != null ? ["x-flespi-cid:".$device->getCid()] :  []) ;
-        $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "device") ;
-        $url =$url ."?fields=".($fields != null ?join(",",$fields) : "all") ;
-
+    function addDevices($devices  , $cid, $fields, $credentials):array{
         
 
-        return CurlHelper::excuteCurl(CurlHelper::post($url , $devices, $credentials)) ;
+        $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "device") ;
+        $url =$url ."?fields=".($fields != null ?join(",",$fields) : "all") ;
+        $moreHedersParams = ($cid != null ? ["x-flespi-cid:".$cid] :  []) ;
+
+        $curl = CurlHelper::post_with_additional_header($url , $devices, $moreHedersParams, $credentials) ;
+        
+
+        return CurlHelper::excuteCurl($curl) ;
 
     }
 
@@ -47,17 +49,25 @@ class Device  implements DeviceInterface
         return $response ;
     }
 
-
+    
     function deleteDevice(DeviceDto $deviceDto , $userToken):array{
         $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "device") ;
         $url = $url . "/".join(",",$deviceDto->getIds()) ;
-        // $url = "https://flespi.io/gw/devices/".join(",",$selector) ;
 
         $curl = CurlHelper::delete($url , $userToken) ;
         $response = CurlHelper::excuteCurl($curl);
 
         return $response ;
+    }
 
+    function deleteDevices(DeviceDto $deviceDto , $userToken):array{
+        $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "device") ;
+        $url = $url . "/".join(",",$deviceDto->getIds()) ;
+
+        $curl = CurlHelper::delete($url , $userToken) ;
+        $response = CurlHelper::excuteCurl($curl);
+
+        return $response ;
     }
 
     function updateDevice(DeviceDto $deviceDto , $userToken):array{

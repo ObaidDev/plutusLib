@@ -8,9 +8,10 @@ namespace Fdvice\device\manage ;
 interface DeviceInterface {
 
     function addDevice($device , $credentials):array;
-    function addDevices($devices , $fields , $credentials):array;
+    function addDevices($devices,$cid , $fields , $credentials):array;
     function getDeviceinfo(DeviceDto $dataQuery , $credentials):array;
     function deleteDevice(DeviceDto $in_data , $credentials):array;
+    function deleteDevices(DeviceDto $in_data , $credentials):array;
     function updateDevice(DeviceDto $in_data , $credentials):array;
     function moveDeivceToSubaccounte($in_data , $selector , $credentials):array;
     function getSettings(DeviceDto $deviceDto , $credentials):array;

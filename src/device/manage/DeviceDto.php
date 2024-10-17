@@ -14,6 +14,7 @@ class DeviceDto {
     private ?string $phone = null ;
     private  $ids  ;
     private  $calcs ;
+    private  $plugins ;
     private $fields = null;
     private $selectors = null;
     private $enabled = null ;
@@ -95,10 +96,12 @@ class DeviceDto {
 
     public function getPhone() {
         return $this->phone;
+
     }
 
     public function setPhone($phone) {
         $this->phone = $phone;
+        return $this ;
     }
 
     public function getCid() {
@@ -107,6 +110,7 @@ class DeviceDto {
 
     public function setCid($cid) {
         $this->cid = $cid;
+        return $this ; 
     }
 
     public function getOwner() {
@@ -135,6 +139,18 @@ class DeviceDto {
 
     public function setCalcs($calcs) {
         $this->calcs = $calcs;
+        return $this ;
+    }
+
+
+    //! calcs
+    public function getPlugins() {
+        return $this->plugins;
+    }
+
+    public function setPlugins($plugins) {
+        $this->plugins = $plugins;
+        return $this ;
     }
 
     public function getFields() {
@@ -244,6 +260,9 @@ class DeviceDto {
 
         return $data ;
     }
+
+
+
 }
 
 ?>

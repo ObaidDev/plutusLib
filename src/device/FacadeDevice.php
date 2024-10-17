@@ -58,9 +58,19 @@ class FacadeDevice {
         return self::$device->getDeviceinfo($deviceDto , $userToken) ;
     }
 
+
+    /**
+     * @deprecated
+     *  @see use deleteDevices instead
+     * @return $this
+     */
     function deleteDevice($selector, $usertoken)  {
         $res = self::$device->deleteDevice($selector , $usertoken);
         return $res ;
+    }
+
+    function deleteDevices(DeviceDto $deviceDto, $usertoken)  {
+        return self::$device->deleteDevices($deviceDto, $usertoken);
     }
 
     function updateDevice($deviceData, $Usertoken):array {
@@ -144,9 +154,9 @@ class FacadeDevice {
         
     }
 
-    function addDevices($devices  , $fields, $credentials):array{
+    function addDevices($devices ,$cid , $fields, $credentials):array{
         
-        return self::$device->addDevices($devices  , $fields, $credentials) ;
+        return self::$device->addDevices($devices  ,$cid , $fields, $credentials) ;
 
     }
 }

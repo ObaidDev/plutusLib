@@ -10,7 +10,7 @@ use Fdvice\calculate\manage\Calculator ;
 use Fdvice\device\manage\DeviceDto ;
 
 
-require_once base_path()."/config/config-flespi.php" ;
+// require_once base_path()."/config/config-flespi.php" ;
 // require_once __DIR__."../../../config/config-exemple.php" ;
 
 
@@ -108,9 +108,8 @@ final class FacadeCaluclateInterval
         return $res ;
     }
 
-    function assigneDevices(DeviceDto $deviceDto , $userToken) : array {
-        $res = self::$caluctor->assigneDevices($deviceDto , $userToken);
-        return $res ;
+    function assignDevices(DeviceDto $deviceDto , $userToken) : array {
+        return self::$caluctor->assigneDevices($deviceDto , $userToken);
     }
 
     function addCalcs($userToken) : array {
