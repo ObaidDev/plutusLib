@@ -228,8 +228,6 @@ class DeviceDto {
         $this->isEnabled() !== null ? $data["enabled"] = $this->isEnabled() : null;
 
         return $data ;
-
-        // var_dump($data) ;
     }
 
 

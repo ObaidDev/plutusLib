@@ -9,7 +9,7 @@ class DeviceDtoMapper {
 
     public static function toDevicesDto ($devices , $deviceTypeId) :  array{
 
-        $startTime = microtime(true);
+        // $startTime = microtime(true);
 
         $devices = array_map(function ($deviceDto) use  ($deviceTypeId){
             
@@ -20,7 +20,8 @@ class DeviceDtoMapper {
                         ->setPhone($deviceDto["phone"] ?? null);
             return $deviceDto() ;
         } , $devices) ;
-        echo "DevicesDto Mapping time: " .  microtime(true) - $startTime . " seconds\n";
+        
+        // echo "DevicesDto Mapping time: " .  microtime(true) - $startTime . " seconds\n";
         return $devices ;
     }
 
