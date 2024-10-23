@@ -37,11 +37,9 @@ final class Grant implements GrantInterface
         $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "grant") ;
         $url = $url ."/".join("," , $grantDto->getIds())."/subaccounts/".join("," , $subaccount->getIds());
 
-        $curl = CurlHelper::post($url , NULL ,$userToken);
-        $response = CurlHelper::excuteCurl($curl);
-
-
-        return $response ;
+        return  CurlHelper::excuteCurl(
+                        CurlHelper::post($url , NULL ,$userToken)
+        );
 
         // return [] ;
     }

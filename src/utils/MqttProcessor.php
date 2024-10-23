@@ -19,23 +19,24 @@ class MqttProcessor
 	private $mqtt;
 
 	private $memoryLoader;
-	private $objectList;
+	protected $objectList;
 	private static $expressionLanguage ;
 
 
-	public function __construct(int $num_clcas, int $num_devices , int $num_users)
+	public function __construct(array $notificationsObjects)
 	{
-		$startMemory = memory_get_usage();
-		$this->objectList = MemoryTest::buildStructure($num_clcas , $num_devices , $num_users);
-		
+		// $startMemory = memory_get_usage();
+		// $this->objectList = MemoryTest::buildStructure($num_clcas , $num_devices , $num_users);
 
-		var_dump($this->objectList) ;
+		$this->objectList = $notificationsObjects ;
 		self::$expressionLanguage = new ExpressionLanguage() ;
 
-		$endMemory = memory_get_usage();
-		$memoryUsed = $endMemory - $startMemory;
-		echo "Memory used by {$num_clcas} clcs and {$num_devices} devices: " . ($memoryUsed / 1024) . " KB\n";
-		die() ;
+		// var_dump($this->objectList) ;
+
+		// $endMemory = memory_get_usage();
+		// $memoryUsed = $endMemory - $startMemory;
+		// echo "Memory used by {$num_clcas} clcs and {$num_devices} devices: " . ($memoryUsed / 1024) . " KB\n";
+		// die() ;
 	}
 
 	private  function prepareConnection()
@@ -53,7 +54,7 @@ class MqttProcessor
 		$this->mqtt->subscribe($topics, 0);
 	}
 
-	private static function expressionLanguageEvaluate($condition, $context) {
+	public static function expressionLanguageEvaluate($condition, $context) {
 		return self::$expressionLanguage->evaluate($condition, $context) ;
 	}
 
@@ -85,37 +86,43 @@ class MqttProcessor
 			echo "Message too large, skipping: {$topic}\n";
 			return;
 		}
-    
+
 
 		// echo 'Msg Recieved: ' . date('r') . "\n";
 		// echo "Topic: {$topic}\n\n";
 		// echo "Mesage 🔖🔖🔖🔖: {$msg}\n\n";
 
 		// /**
-		//  * 
+		//  *
 		//  * @ Start Process Block
 		//  * we will index the device_id and calc_id to seepd up the query serching
 		//  */
 
-		$users = MemoryTest::findObjectsById($this->objectList, MemoryTest::getCalcId($topic) , MemoryTest::getDeviceId($topic));
+		$target = MemoryTest::findObjectsById($this->objectList, MemoryTest::getCalcId($topic) , MemoryTest::getDeviceId($topic));
 
+		// var_dump($target) ;
 		// $vars = MemoryTest::findObjectsById($this->objectList, $calc_id);
-		
 		// die();
+
 		$startTime = microtime(true);
-		if ($users != null) {
-			# code...
-			foreach ($users as $user) {
-	
-				if (
-					$user != null &&
-					MqttProcessor::expressionLanguageEvaluate($user["condition"] , json_decode($msg, true))
-					
-				) {
-					# code...
-					echo ("Send✅✅✅✅\n\n");
-				};
+		if ($target != null) {
+
+
+			if ($target["isEmail"]) {
+				var_dump("Send✅\n") ;
 			}
+			# code...
+			// foreach ($users as $user) {
+
+			// 	if (
+			// 		$user != null &&
+			// 		MqttProcessor::expressionLanguageEvaluate($user["condition"] , json_decode($msg, true))
+
+			// 	) {
+			// 		# code...
+			// 		echo ("Send✅✅✅✅\n\n");
+			// 	};
+			// }
 		}
 		$endTime = microtime(true);
 		$duration = $endTime - $startTime;
@@ -127,8 +134,18 @@ class MqttProcessor
 		// echo "Memory used at the end: " . ($memoryUsed / 1024) . " KB\n";
 
 		// /**
-		//  * 
+		//  *
 		//  * @ End Process Block
 		//  */
+	}
+
+
+	public static function  prepareUserPreferenceMessage(string $template, array $values) : string {
+		$placeholders = [];
+
+		foreach ($values as $key => $value) {
+			$placeholders["{" . $key . "}"] = $value;
+		}
+		return strtr($template, $placeholders);
 	}
 }

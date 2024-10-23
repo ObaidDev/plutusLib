@@ -126,7 +126,7 @@ final class FacadSubaccount
         {
             $passwdDto = new PasswdDto($subaccount->getPasswd()) ;
             $key = "FlespiToken ".$token["result"][0]["key"] ;
-            $res = self::$passwd->updatePasswd($passwdDto, $key);
+            $res = self::$passwd->updatePasswd($passwdDto, $key , null);
 
         }
 
