@@ -10,13 +10,13 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage ;
 
 class MqttProcessor
 {
-	private $server = 'mqtt.flespi.io';
-	private $port = 1883;
-	private $username = 'CaaFWLmqLlaXX4tM9B7C9LkGmEgE6EPAoY03SukImT0ksgNE5gBIjSmXcgM0sjhe';                   // set your username
-	private $password = '';
-	private $client_id = 'phpMQTT-subscriber';
+	protected $server = 'mqtt.flespi.io';
+	protected $port = 1883;
+	protected $username = 'CaaFWLmqLlaXX4tM9B7C9LkGmEgE6EPAoY03SukImT0ksgNE5gBIjSmXcgM0sjhe';                   // set your username
+	protected $password = '';
+	protected $client_id = 'phpMQTT-subscriber';
 
-	private $mqtt;
+	protected $mqtt;
 
 	private $memoryLoader;
 	protected $objectList;
@@ -25,24 +25,18 @@ class MqttProcessor
 
 	public function __construct(array $notificationsObjects)
 	{
-		// $startMemory = memory_get_usage();
-		// $this->objectList = MemoryTest::buildStructure($num_clcas , $num_devices , $num_users);
 
 		$this->objectList = $notificationsObjects ;
 		self::$expressionLanguage = new ExpressionLanguage() ;
 
-		// var_dump($this->objectList) ;
+    	$this->client_id = $this->client_id ."_".time() ;
 
-		// $endMemory = memory_get_usage();
-		// $memoryUsed = $endMemory - $startMemory;
-		// echo "Memory used by {$num_clcas} clcs and {$num_devices} devices: " . ($memoryUsed / 1024) . " KB\n";
-		// die() ;
 	}
 
 	private  function prepareConnection()
 	{
-		$this->mqtt = new phpMQTT($this->server, $this->port, $this->client_id);
-		if (!$this->mqtt->connect(true, NULL, $this->username, $this->password)) {
+		$this->mqtt = new phpMQTT($this->getServer(), $this->getPort(), $this->getClientId());
+		if (!$this->mqtt->connect(true, NULL, $this->getUsername(), $this->getPassword())) {
 			exit(1);
 		}
 
@@ -76,9 +70,6 @@ class MqttProcessor
 	function processMessage($topic, $msg)
 	{
 
-		// var_dump($this->objectList) ;
-		// die() ;
-		// $startMemory = memory_get_usage();
 
 		$maxMessageSize = 1024 * 1024; // 1 MB (adjust as necessary)
 		// $maxMessageSize = 64; // 64 bytes for testing
@@ -87,22 +78,8 @@ class MqttProcessor
 			return;
 		}
 
-
-		// echo 'Msg Recieved: ' . date('r') . "\n";
-		// echo "Topic: {$topic}\n\n";
-		// echo "Mesage 🔖🔖🔖🔖: {$msg}\n\n";
-
-		// /**
-		//  *
-		//  * @ Start Process Block
-		//  * we will index the device_id and calc_id to seepd up the query serching
-		//  */
-
 		$target = MemoryTest::findObjectsById($this->objectList, MemoryTest::getCalcId($topic) , MemoryTest::getDeviceId($topic));
 
-		// var_dump($target) ;
-		// $vars = MemoryTest::findObjectsById($this->objectList, $calc_id);
-		// die();
 
 		$startTime = microtime(true);
 		if ($target != null) {
@@ -111,32 +88,10 @@ class MqttProcessor
 			if ($target["isEmail"]) {
 				var_dump("Send✅\n") ;
 			}
-			# code...
-			// foreach ($users as $user) {
-
-			// 	if (
-			// 		$user != null &&
-			// 		MqttProcessor::expressionLanguageEvaluate($user["condition"] , json_decode($msg, true))
-
-			// 	) {
-			// 		# code...
-			// 		echo ("Send✅✅✅✅\n\n");
-			// 	};
-			// }
 		}
 		$endTime = microtime(true);
 		$duration = $endTime - $startTime;
 		echo "Task duration: " . ($duration * 1000) . " milliseconds 🔖🔖\n";
-
-
-		// $endMemory = memory_get_usage();
-		// $memoryUsed = $endMemory - $startMemory;
-		// echo "Memory used at the end: " . ($memoryUsed / 1024) . " KB\n";
-
-		// /**
-		//  *
-		//  * @ End Process Block
-		//  */
 	}
 
 
@@ -148,4 +103,54 @@ class MqttProcessor
 		}
 		return strtr($template, $placeholders);
 	}
+
+	// Getter for server
+    public function getServer() {
+        return $this->server;
+    }
+
+    // Setter for server
+    public function setServer($server) {
+        $this->server = $server;
+    }
+
+    // Getter for port
+    public function getPort() {
+        return $this->port;
+    }
+
+    // Setter for port
+    public function setPort($port) {
+        $this->port = $port;
+    }
+
+    // Getter for username
+    public function getUsername() {
+        return $this->username;
+    }
+
+    // Setter for username
+    public function setUsername($username) {
+        $this->username = $username;
+    }
+
+    // Getter for password
+    public function getPassword() {
+        return $this->password;
+    }
+
+    // Setter for password
+    public function setPassword($password) {
+        $this->password = $password;
+    }
+
+    // Getter for client_id
+    public function getClientId() {
+        return $this->client_id;
+    }
+
+    // Setter for client_id
+    public function setClientId($client_id) {
+        $this->client_id = $client_id;
+    }
 }
