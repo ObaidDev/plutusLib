@@ -119,6 +119,11 @@ final class MemoryTest
         return $objects[$calcID][$deviceID] ?? null;
     }
 
+    static function findObjectsByIdV2($objects, $calcID , $deviceID) {
+        echo "Looking for Calc ID: {$calcID}, Device ID: {$deviceID} 🔍\n";
+        return $objects[$calcID."_".$deviceID] ?? null;
+    }
+
 
     private static function createDevice() {
 
