@@ -128,11 +128,9 @@ class Device  implements DeviceInterface
     function getDevicesTelemetry(DeviceDto $deviceDto , $credentials):array{
 
         $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "device") ;
-        $url = $url ."/". ($deviceDto->getIds() != null ? $deviceDto->getIds() : "all")."/telemetry/".
+        $url = $url ."/". ($deviceDto->getIds() != null ? join("," , $deviceDto->getIds()) : "all")."/telemetry/".
         ($deviceDto->getFields() != null ? join(",",$deviceDto->getFields()) : "all");
-
-        // var_dump($url) ;
-        // die() ;
+        
         $curl = CurlHelper::get($url , $credentials) ;
 
         $response = CurlHelper::excuteCurl($curl);
