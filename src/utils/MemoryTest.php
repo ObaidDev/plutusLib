@@ -113,6 +113,20 @@ final class MemoryTest
         return (string) "DEVICE_".explode("/" , $topic)[6] ;
     }
 
+    static function getTelemetryName(string $topic) : string {
+        $topicsList = explode("/" , $topic) ;
+        return (string) "TELEMETRY_".strtoupper(end($topicsList)); ;
+    }
+
+    static function getDeviceTelemetryId(string $topic) : string {
+        return (string) "DEVICE_".explode("/" , $topic)[4] ;
+    }
+
+    static function getLastElementInTopic(string $topic) : string {
+        $topicsList = explode("/" , $topic) ;
+        return (string) end($topicsList) ;
+    }
+    
 
     static function findObjectsById($objects, $calcID , $deviceID) {
         echo "Looking for Calc ID: {$calcID}, Device ID: {$deviceID} 🔍\n";
@@ -120,8 +134,13 @@ final class MemoryTest
     }
 
     static function findObjectsByIdV2($objects, $calcID , $deviceID) {
-        echo "Looking for Calc ID: {$calcID}, Device ID: {$deviceID} 🔍\n";
+        echo "Looking for Calc ID: {$calcID}_{$deviceID} 🔍\n";
         return $objects[$calcID."_".$deviceID] ?? null;
+    }
+
+    static function findObjectsByIdV3($objects, $telemetryName , $deviceID) {
+        echo "Looking for telemetry name : {$telemetryName}, Device ID: {$deviceID} 🔍\n";
+        return $objects[$telemetryName."_".$deviceID] ?? null;
     }
 
 

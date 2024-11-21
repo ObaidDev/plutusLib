@@ -13,14 +13,18 @@ final class RestCalcs  implements RestCalcsInterface
         // $url = $url . "/".join(",",$pluginDto->getIds()) ;
         $url = $url. "/".join( ",", $deviceDto->getIds())."/calculate" ;
         // var_dump($url) ;
-        // die() ;
 
         $selectors = ["selectors"=>[$selector->_create()]] ;
-
+        
         //? build the selector and merge it with the counters .
-        $selectors = array_merge($selectors , 
-        ["counters"=>$selector->getCounters() , "from"=>$selector->getFrom() , 
-        "to"=>$selector->getTo()]) ;
+        $selectors = array_merge($selectors ,
+        ["counters"=>$selector->getCounters() , "from"=>$selector->getFrom() ,
+        "to"=> $selector->getTo() > $selector->getFrom() ? $selector->getTo() : $selector->getTo() + 86399
+        ]) ;
+
+        // var_dump($selectors);
+        // die() ;
+
 
         return CurlHelper::excuteCurl(CurlHelper::post($url , $selectors , $userToken)) ;
 
