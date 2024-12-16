@@ -55,8 +55,13 @@
                 "description":"nothig ..."
             },
             {
-                "name":"realm" ,
+                "name":"realms" ,
                 "url":"https://flespi.io/platform/realms" ,
+                "description":"nothig ..."
+            },
+            {
+                "name":"realm" ,
+                "url":"https://flespi.io/realm" ,
                 "description":"nothig ..."
             },
             {

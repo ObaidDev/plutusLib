@@ -45,9 +45,7 @@ final class FacadeRealm
 
     //todo use Subaccount object . 
     public  function addRealm($realms , $userToken):array{
-
-        $res = self::$realm->addRealm($realms , $userToken) ;
-        return $res ;
+        return self::$realm->addRealm($realms , $userToken) ;
     }
 
     public  function addCompany($users , $userToken):array{
@@ -75,8 +73,7 @@ final class FacadeRealm
     }
 
     public function addUserRealm(UserDto $user  , $userToken){
-        $res = self::$user->realmCreateUser($user  , $userToken) ;
-        return $res ;
+        return self::$user->realmCreateUser($user  , $userToken) ;
     }
 
     public function deleteRealmUser(UserDto $user , $userToken) : array {
@@ -85,8 +82,7 @@ final class FacadeRealm
 
 
     public function login(UserDto $user) : array {
-        $res = self::$user->login($user) ;
-        return $res ;
+        return self::$user->login($user) ;
     }
 
     function getRealm(RealmDto $realmDto , $credentials) : array {

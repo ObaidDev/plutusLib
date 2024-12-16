@@ -39,7 +39,7 @@ final class FacadeCaluclateInterval
 
             $data_in["data"]["filter"] = $filter ;
             // $data_in["data"]["fields"] = $filter ;
-            // var_dump($data_in);
+            // var_dump($filter);
             // die() ;
             $data_in["calcs"]= $data_in["report"] ;
             $data_in["calc.devices"] = $data_in["units"] ;
@@ -73,9 +73,6 @@ final class FacadeCaluclateInterval
 
           $filter = $dto->getFilter() != null ? FacadeCaluclateInterval::buildFilter($dto->getFilter()) : null ;
           $dto->setFilter($filter) ;
-
-          // var_dump($filter ) ;
-          // die() ;
 
           return self::$calculateInterval->getIntervalesOfDevice_V2($dto , $userToken);
         }

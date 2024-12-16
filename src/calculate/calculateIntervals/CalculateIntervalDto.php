@@ -12,6 +12,9 @@ final class CalculateIntervalDto
     // ids instead of id because whene we need the id we need a list of it not just one id .
     private $ids ;
 
+    private $begin ;
+    private $end ;
+    private $reverse ;
 
     private function __construct() {
     
@@ -88,11 +91,32 @@ final class CalculateIntervalDto
         $this->clcs = $clcs;
     }
 
+    public function getBegin ()
+    {
+        return $this->begin;
+    }
+
+    public function setBegin(int $begin): void
+    {
+        $this->begin = $begin;
+    }
+
+    public function getEnd ()
+    {
+        return $this->end;
+    }
+
+    public function setEnd(int $end): void
+    {
+        $this->end = $end;
+    }
 
     public function getData() {
         $data =[] ;
         ($this->getFilter() != null) ? $data["filter"]=$this->getFilter():null ;
         ($this->getFields() != null) ? $data["fields"]=$this->getFields():null ;
+        ($this->getBegin() != null) ? $data["begin"]=$this->getBegin():null ;
+        ($this->getEnd() != null) ? $data["end"]=$this->getEnd():null ;
 
         return $data ;
     }

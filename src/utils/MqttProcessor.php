@@ -72,26 +72,29 @@ class MqttProcessor
 
 
 		$maxMessageSize = 1024 * 1024; // 1 MB (adjust as necessary)
+
+		$genfanceName = json_decode($msg , true)["geofence_name"] ;
+		var_dump($genfanceName == $genfanceName) ;
 		// $maxMessageSize = 64; // 64 bytes for testing
-		if (strlen($msg) > $maxMessageSize) {
-			echo "Message too large, skipping: {$topic}\n";
-			return;
-		}
+		// if (strlen($msg) > $maxMessageSize) {
+		// 	echo "Message too large, skipping: {$topic}\n";
+		// 	return;
+		// }
 
-		$target = MemoryTest::findObjectsById($this->objectList, MemoryTest::getCalcId($topic) , MemoryTest::getDeviceId($topic));
-
-
-		$startTime = microtime(true);
-		if ($target != null) {
+		// $target = MemoryTest::findObjectsById($this->objectList, MemoryTest::getCalcId($topic) , MemoryTest::getDeviceId($topic));
 
 
-			if ($target["isEmail"]) {
-				var_dump("Send✅\n") ;
-			}
-		}
-		$endTime = microtime(true);
-		$duration = $endTime - $startTime;
-		echo "Task duration: " . ($duration * 1000) . " milliseconds 🔖🔖\n";
+		// $startTime = microtime(true);
+		// if ($target != null) {
+
+
+		// 	if ($target["isEmail"]) {
+		// 		var_dump("Send✅\n") ;
+		// 	}
+		// }
+		// $endTime = microtime(true);
+		// $duration = $endTime - $startTime;
+		// echo "Task duration: " . ($duration * 1000) . " milliseconds 🔖🔖\n";
 	}
 
 

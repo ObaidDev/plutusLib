@@ -139,6 +139,7 @@ final class CalculateInterval  implements CalculateIntervalInterface
         case 'duration':
           // {"filter":"if(duration >= 368 && duration <= 400, true, error())","reverse":false}
           
+          
           try {
             $min = $filter_List["duration"]["min"] * 60 ;
             $max = $filter_List["duration"]["max"] * 60 ;
