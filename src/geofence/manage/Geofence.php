@@ -96,5 +96,20 @@ final class Geofence implements GeofenceInterface {
         return CurlHelper::excuteCurl(
                         CurlHelper::get($url , $userToken)) ;
     }
+
+    function assignGeofenceToDevice(GeofenceDto $geofence , $userToken):array {
+
+        $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "device") ;
+        $url = $url . "/".($geofence->getDevicesIds()!= null ? join(",",$geofence->getDevicesIds()) : "");
+        $url = $url . "/geofences/".($geofence->getIds()!= null ? join(",",$geofence->getIds()) : "") ;
+
+        // var_dump($url) ;
+        // die() ;
+        
+        $moreHedersParams = ($geofence->getCid() != null ? ["x-flespi-cid:".$geofence->getCid()] :  []) ;        
+        $curl = CurlHelper::post_with_additional_header($url , NULL , $moreHedersParams , $userToken) ;
+        
+        return CurlHelper::excuteCurl($curl);
+    }
 }
 

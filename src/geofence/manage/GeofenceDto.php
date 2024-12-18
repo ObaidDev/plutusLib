@@ -15,6 +15,7 @@ class GeofenceDto {
     private $cid = null ;
     private $ids;
     private $calcsIds;
+    private $devicesIds;
     private $pluginsIds;
     private $fields = null;
 
@@ -54,6 +55,14 @@ class GeofenceDto {
 
     public function setPluginsIds($pluginsIds): void {
         $this->pluginsIds = $pluginsIds;
+    }
+
+    public function getDevicesIds() {
+        return $this->devicesIds;
+    }
+
+    public function setDevicesIds($devicesIds): void {
+        $this->devicesIds = $devicesIds;
     }
 
     public function getCid() {
