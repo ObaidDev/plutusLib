@@ -68,6 +68,11 @@
                 "name":"webhook" ,
                 "url":"https://flespi.io/platform/webhooks" ,
                 "description":"nothig ..."
+            },
+            {
+                "name":"restMqtt" ,
+                "url":"https://flespi.io/mqtt" ,
+                "description":"nothig ..."
             }
 
         ]
