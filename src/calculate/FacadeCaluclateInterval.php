@@ -67,18 +67,19 @@ final class FacadeCaluclateInterval
 
     function executeReport_V2(CalculateIntervalDto $dto , $userToken , $is_last = false)  {
 
-
+        
         if (!$is_last) {
+            
+            
+            $filter = $dto->getFilter() != null ? FacadeCaluclateInterval::buildFilter($dto->getFilter()) : null ;
+            $dto->setFilter($filter) ;
+            
+            $res = self::$calculateInterval->getIntervalesOfDevice_V2($dto , $userToken) ;
 
-
-          $filter = $dto->getFilter() != null ? FacadeCaluclateInterval::buildFilter($dto->getFilter()) : null ;
-          $dto->setFilter($filter) ;
-
-          return self::$calculateInterval->getIntervalesOfDevice_V2($dto , $userToken);
+            return $res;
         }
         else
         {
-
 
             $res = self::$calculateInterval->getLastIntervaleOfDevice($dto , $userToken);
             return $res ;
