@@ -76,8 +76,8 @@ final class Geofence implements GeofenceInterface {
          ** I used calcs url as base url and I will add to it geofence
          */
         $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "plugin") ;
-        $url = $url . "/".($geofence->getpluginsIds()!= null ? join(",",$geofence->getpluginsIds()) : "hello I am Obayd");
-        $url = $url . "/geofences/".($geofence->getIds()!= null ? join(",",$geofence->getIds()) : "hello I am Obayd") ;
+        $url = $url . "/".($geofence->getpluginsIds()!= null ? join(",",$geofence->getpluginsIds()) : "* * * * * * * * * ");
+        $url = $url . "/geofences/".($geofence->getIds()!= null ? join(",",$geofence->getIds()) : "* * * * * * * * * ") ;
 
         $moreHedersParams = ($geofence->getCid() != null ? ["x-flespi-cid:".$geofence->getCid()] :  []) ;        
         $curl = CurlHelper::post_with_additional_header($url , NULL , $moreHedersParams , $userToken) ;
@@ -100,8 +100,8 @@ final class Geofence implements GeofenceInterface {
     function assignGeofenceToDevice(GeofenceDto $geofence , $userToken):array {
 
         $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "device") ;
-        $url = $url . "/".($geofence->getDevicesIds()!= null ? join(",",$geofence->getDevicesIds()) : "");
-        $url = $url . "/geofences/".($geofence->getIds()!= null ? join(",",$geofence->getIds()) : "") ;
+        $url = $url . "/".($geofence->getDevicesIds()!= null ? join(",",$geofence->getDevicesIds()) : "* * * * * * * * * * ");
+        $url = $url . "/geofences/".($geofence->getIds()!= null ? join(",",$geofence->getIds()) : "* * * * * * * * * * "); ;
 
         // var_dump($url) ;
         // die() ;
@@ -110,6 +110,20 @@ final class Geofence implements GeofenceInterface {
         $curl = CurlHelper::post_with_additional_header($url , NULL , $moreHedersParams , $userToken) ;
         
         return CurlHelper::excuteCurl($curl);
+    }
+
+
+
+    function unassignGeofenceFromDevice(GeofenceDto $geofence, $userToken): array {
+        $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json", "device") 
+            . "/" . ($geofence->getDevicesIds() ? implode(",", $geofence->getDevicesIds()) : "* * * * * * * * * *")
+            . "/geofences/" . ($geofence->getIds() ? implode(",", $geofence->getIds()) : "* * * * * * * * * *");
+
+        $moreHedersParams = $geofence->getCid() ? ["x-flespi-cid:" . $geofence->getCid()] : [];
+        
+        return CurlHelper::excuteCurl(
+            CurlHelper::delete($url, $userToken)
+        );
     }
 }
 
