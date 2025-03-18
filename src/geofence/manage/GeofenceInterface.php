@@ -17,5 +17,8 @@ interface GeofenceInterface {
     function assignGeofenceToPlugin(GeofenceDto $geofence , $userToken):array ;
     function assignGeofenceToDevice(GeofenceDto $geofence , $userToken):array ;
 
+
+    function unassignGeofenceFromDevice(GeofenceDto $geofence , $userToken):array ;
+
     
 }
