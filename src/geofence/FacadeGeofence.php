@@ -48,6 +48,11 @@ final class FacadeGeofence
         return self::$grefence->assignGeofenceToDevice($geofenceDto , $userToken) ;
     }
 
+
+    function unassignGeofenceFromDevice(GeofenceDto $geofenceDto , string $userToken): array {
+        return self::$grefence->unassignGeofenceFromDevice($geofenceDto , $userToken);
+    }
+
     function getGeofencesInfo(GeofenceDto $geofenceDto ,string $userToken) : array {
         return self::$grefence->getGeofences($geofenceDto , $userToken) ;
     }
