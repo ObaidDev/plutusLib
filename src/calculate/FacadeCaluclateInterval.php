@@ -10,7 +10,7 @@ use Fdvice\calculate\manage\Calculator ;
 use Fdvice\device\manage\DeviceDto ;
 
 
-// require_once base_path()."/config/config-flespi.php" ;
+require_once base_path()."/config/config-flespi.php" ;
 // require_once __DIR__."../../../config/config-exemple.php" ;
 
 
