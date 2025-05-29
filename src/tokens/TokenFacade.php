@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Fdvice\tokens ;
 
@@ -16,7 +16,7 @@ final class TokenFacade
 
         self::$token = new Token() ;
     }
-    
+
 
     function createToken($tokens , $userToken) : array {
         $res = self::$token->
@@ -28,7 +28,8 @@ final class TokenFacade
     }
 
     function updateToken(TokenDto $token ,$userToken) : array {
-        $res = self::$token->updateToken($token ,$userToken) ;
+      // dd($token ,$userToken);
+      $res = self::$token->updateToken($token ,$userToken) ;
         return $res ;
     }
 
