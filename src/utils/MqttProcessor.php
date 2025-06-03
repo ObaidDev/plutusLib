@@ -29,6 +29,48 @@ class MqttProcessor
 		$this->objectList = $notificationsObjects ;
 		self::$expressionLanguage = new ExpressionLanguage() ;
 
+
+		self::$expressionLanguage->register(
+            'hasAnyOf',
+            // Compiler function (for compilation/caching)
+            function ($geofences, $searchList) {
+                return sprintf('(is_array(%1$s) && array_intersect(%1$s, %2$s))', $geofences, $searchList);
+            },
+            // Evaluator function (actual execution)
+            function ($arguments, $geofences, $searchList) {
+                if (!$geofences) return false;
+                if (!is_array($geofences) || !is_array($searchList)) return false;
+                
+                foreach ($searchList as $item) {
+                    if (in_array($item, $geofences)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        );
+        
+        // Register notHasAnyOf function
+        self::$expressionLanguage->register(
+            'notHasAnyOf',
+            // Compiler function
+            function ($geofences, $searchList) {
+                return sprintf('(!is_array(%1$s) || !array_intersect(%1$s, %2$s))', $geofences, $searchList);
+            },
+            // Evaluator function
+            function ($arguments, $geofences, $searchList) {
+                if (!$geofences) return true;
+                if (!is_array($geofences) || !is_array($searchList)) return true;
+                
+                foreach ($searchList as $item) {
+                    if (in_array($item, $geofences)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        );
+
     	$this->client_id = $this->client_id ."_".time() ;
 
 	}
@@ -78,6 +120,7 @@ class MqttProcessor
 		$maxMessageSize = 64; // 64 bytes for testing
 		if (strlen($msg) > $maxMessageSize) {
 			echo "Message too large, skipping: {$topic}\n";
+			echo "Message : " . $msg . " 🗽\n";
 			return;
 		}
 
