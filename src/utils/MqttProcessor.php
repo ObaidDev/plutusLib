@@ -29,7 +29,6 @@ class MqttProcessor
 		$this->objectList = $notificationsObjects ;
 		self::$expressionLanguage = new ExpressionLanguage() ;
 
-
 		self::$expressionLanguage->register(
             'hasAnyOf',
             // Compiler function (for compilation/caching)
@@ -40,7 +39,7 @@ class MqttProcessor
             function ($arguments, $geofences, $searchList) {
                 if (!$geofences) return false;
                 if (!is_array($geofences) || !is_array($searchList)) return false;
-                
+
                 foreach ($searchList as $item) {
                     if (in_array($item, $geofences)) {
                         return true;
@@ -49,7 +48,7 @@ class MqttProcessor
                 return false;
             }
         );
-        
+
         // Register notHasAnyOf function
         self::$expressionLanguage->register(
             'notHasAnyOf',
@@ -61,7 +60,7 @@ class MqttProcessor
             function ($arguments, $geofences, $searchList) {
                 if (!$geofences) return true;
                 if (!is_array($geofences) || !is_array($searchList)) return true;
-                
+
                 foreach ($searchList as $item) {
                     if (in_array($item, $geofences)) {
                         return false;
