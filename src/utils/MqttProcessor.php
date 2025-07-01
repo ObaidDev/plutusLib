@@ -150,20 +150,29 @@ class MqttProcessor
 	// }
 
 
-    public static function prepareUserPreferenceMessage(string $template, array $values) : string {
+    public static function prepareUserPreferenceMessage(string $template, array $values): string {
         $placeholders = [];
 
         foreach ($values as $key => $value) {
-            if (is_array($value)) {
-                $value = implode(', ', $value);  // or json_encode($value)
-            } elseif (is_object($value)) {
-                $value = json_encode($value);
+            // json_encode returns a JSON string for arrays/objects, or quoted strings/numbers for scalars
+            $jsonValue = json_encode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+            // json_encode returns false on failure, fallback to (string)
+            if ($jsonValue === false) {
+                $jsonValue = (string) $value;
             }
-            $placeholders["{" . $key . "}"] = (string) $value;
+
+            // Remove surrounding quotes for scalars to keep it clean
+            if (is_string($value) || is_numeric($value)) {
+                $jsonValue = trim($jsonValue, '"');
+            }
+
+            $placeholders["{" . $key . "}"] = $jsonValue;
         }
 
         return strtr($template, $placeholders);
     }
+
 
 
 	// Getter for server
