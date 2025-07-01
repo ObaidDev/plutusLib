@@ -140,14 +140,31 @@ class MqttProcessor
 	}
 
 
-	public static function  prepareUserPreferenceMessage(string $template, array $values) : string {
-		$placeholders = [];
+	// public static function  prepareUserPreferenceMessage(string $template, array $values) : string {
+	// 	$placeholders = [];
 
-		foreach ($values as $key => $value) {
-			$placeholders["{" . $key . "}"] = $value;
-		}
-		return strtr($template, $placeholders);
-	}
+	// 	foreach ($values as $key => $value) {
+	// 		$placeholders["{" . $key . "}"] = $value;
+	// 	}
+	// 	return strtr($template, $placeholders);
+	// }
+
+
+    public static function prepareUserPreferenceMessage(string $template, array $values) : string {
+        $placeholders = [];
+
+        foreach ($values as $key => $value) {
+            if (is_array($value)) {
+                $value = implode(', ', $value);  // or json_encode($value)
+            } elseif (is_object($value)) {
+                $value = json_encode($value);
+            }
+            $placeholders["{" . $key . "}"] = (string) $value;
+        }
+
+        return strtr($template, $placeholders);
+    }
+
 
 	// Getter for server
     public function getServer() {
