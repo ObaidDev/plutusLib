@@ -23,7 +23,7 @@ class DeviceDto {
     private ?int $from ;
     private ?int $to ;
 
-    private array $metadata = [];
+    private ?array $metadata = null;
 
     private $cid  ;
 
@@ -245,7 +245,7 @@ class DeviceDto {
     public function _update() : array {
         $data =[] ;
         ($this->getPhone() != null) ? $data["configuration"]["phone"]=$this->getPhone():null ;
-        ($this->getPassword() != null) ? $data["configuration"]["phone"]=$this->getPassword():null ;
+        ($this->getPassword() != null) ? $data["configuration"]["password"]=$this->getPassword():null ;
         ($this->getIdent() !== null) ? $data["configuration"]["ident"] = $this->getIdent() : null;
         ($this->getMessages_ttl() != null) ? $data["messages_ttl"]=$this->getMessages_ttl():null ;
         ($this->getMedia_ttl() != null) ? $data["media_ttl"]=$this->getMedia_ttl():null ;
