@@ -12,6 +12,7 @@ class DeviceDto {
     private ?int $messages_ttl = null;
     private ?int $media_ttl = null;
     private ?string $phone = null ;
+    private ?string $password = null ;
     private  $ids  ;
     private  $calcs ;
     private  $plugins ;
@@ -102,6 +103,15 @@ class DeviceDto {
     public function setPhone($phone) {
         $this->phone = $phone;
         return $this ;
+    }
+
+    public function getPassword() {
+      return $this->password;
+    }
+
+    public function setPassowrd($password){
+        $this->password= $password;
+        return $this;
     }
 
     public function getCid() {
@@ -223,6 +233,7 @@ class DeviceDto {
         ];
 
         ($this->getPhone() != null) ? $data["configuration"]["phone"]=$this->getPhone():null ;
+        ($this->getPassword() != null) ? $data["configuration"]["password"]=$this->getPassword():null ;
         ($this->getMessages_ttl() != null) ? $data["messages_ttl"]=$this->getMessages_ttl():null ;
         ($this->getMedia_ttl() != null) ? $data["media_ttl"]=$this->getMedia_ttl():null ;
         $this->isEnabled() !== null ? $data["enabled"] = $this->isEnabled() : null;
@@ -234,13 +245,14 @@ class DeviceDto {
     public function _update() : array {
         $data =[] ;
         ($this->getPhone() != null) ? $data["configuration"]["phone"]=$this->getPhone():null ;
+        ($this->getPassword() != null) ? $data["configuration"]["phone"]=$this->getPassword():null ;
         ($this->getIdent() !== null) ? $data["configuration"]["ident"] = $this->getIdent() : null;
         ($this->getMessages_ttl() != null) ? $data["messages_ttl"]=$this->getMessages_ttl():null ;
         ($this->getMedia_ttl() != null) ? $data["media_ttl"]=$this->getMedia_ttl():null ;
         ($this->isEnabled() !== null) ? $data["enabled"] = $this->isEnabled() : null;
         ($this->getDevice_type_id() != null) ? $data["device_type_id"] = $this->getDevice_type_id() : null;
         ($this->getName() !== null) ? $data["name"] = $this->getName() : null;
-        // ($this->getMetaData() !== null) ? $data["metadata"] = $this->getMetaData() : null;
+        ($this->getMetaData() !== null) ? $data["metadata"] = $this->getMetaData() : null;
 
         return $data ;
     }
