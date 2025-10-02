@@ -143,7 +143,7 @@ class Device  implements DeviceInterface
     function getDevicesMessages(DeviceDto $deviceDto , $credentials):array{
 
         $url = CurlHelper::getEndpointUrl(__DIR__."/../../../config/endpoints.json" , "device") ;
-        $url = $url ."/". ($deviceDto->getIds() != null ? $deviceDto->getIds() : "all")."/messages".
+        $url = $url ."/".($deviceDto->getIds() != null ? join("," , $deviceDto->getIds()) : "all")."/messages".
         "?data=".urlencode(json_encode($deviceDto->getData()));
 
         // var_dump($url) ;
