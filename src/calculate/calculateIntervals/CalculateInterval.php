@@ -250,56 +250,43 @@ final class CalculateInterval  implements CalculateIntervalInterface
         
         //? we used it to give the user the poisblite to get the unauthorized use of the vehicls for a given date range and given time range . 
         case 'timer':
-          # code...
-          try 
-          {
-            $timer1 = $filter_List["timer"]["timer1"];
-            $timer2 = $filter_List["timer"]["timer2"];
-
-            // !if((start_hour >= A_hour && start_minute >= A_minute) && (end_hour >= B_hour && end_minute >= B_minute))
-
-            $T_start = "start_total_minutes" ;
-            // total_minutes start_total_minutes
-            $T_end = "total_minutes" ;
-            $R_start = CurlHelper::time_to_minutes($timer1["start_hour"] , $timer1["start_minute"]) ;
-            $R_end = CurlHelper::time_to_minutes($timer2["end_hour"] , $timer2["end_minute"]) ;
-
-            /**
-             * * Adjust R_end if it is less than R_start
-             */
-            list($R_start, $R_end) = CurlHelper::handle_wraparound($R_start, $R_end);
-
-                      
-            // if($T_start>$T_end , if((". $T_start + 1440."<=".$R_end.") && (".$T_end.">=".$R_start ."), true , error()) , "if((". $T_start."<=".$R_end.") && (".$T_end.">=".$R_start ."), true , error())")
-            $qte = "if((". $T_start."<=".$R_end.") && (".$T_end.">=".$R_start ."), true , error())" ;
-            
-            // !important .. (if the start_hour > end_hour)
-            // $qte = "if(".$T_start.">".$T_end.",if((". ($T_start)."<=".$R_end.") && (".($T_end ."+1440").">=".$R_start ."), true , error()),".$subqte.")" ;
-
-          } 
-          catch (\Throwable $th) {
-            
-            if (array_key_exists("timer1" , $filter_List["timer"])) {
-              # code...
+          try {
               $timer1 = $filter_List["timer"]["timer1"];
-              $tim = "(start_hour >= ".$timer1["start_hour"]
-              ." && ("."start_hour !=".$timer1["start_hour"].
-              " || start_minute > ".$timer1["start_minute"]
-              ."))" ;
-            }
-
-            else {
               $timer2 = $filter_List["timer"]["timer2"];
-              $tim = "(end_hour <= ".$timer2["end_hour"]
-              ." && ("."end_hour !=".$timer2["end_hour"].
-              " || end_minute < ".$timer2["end_minute"]
-              ."))" ;
-            }
-            $qte = "if( ". $tim .", true , error())" ;
-            
+
+              // Get local timezone offset in seconds
+              $timezone_offset = date('Z'); // This gets the server's timezone offset from UTC in seconds
+
+              // Convert hours and minutes to seconds and adjust for timezone
+              $R_start = ($timer1["start_hour"] * 3600 + $timer1["start_minute"] * 60) - $timezone_offset;
+              $R_end = ($timer2["end_hour"] * 3600 + $timer2["end_minute"] * 60) - $timezone_offset;
+
+              // Get the time component of the begin timestamp in UTC
+              $daily_offset = "floor(begin/86400)*86400";
+              
+              // Add timezone adjustment to the comparison
+              $qte = "if((begin >= " . $daily_offset . "+" . $R_start . 
+                    ") && (begin <= " . $daily_offset . "+" . $R_end . 
+                    "), true, error())";
+
+          } catch (\Throwable $th) {
+              if (array_key_exists("timer1", $filter_List["timer"])) {
+                  $timer1 = $filter_List["timer"]["timer1"];
+                  $tim = "(start_hour >= ".$timer1["start_hour"]
+                      ." && ("."start_hour !=".$timer1["start_hour"].
+                      " || start_minute > ".$timer1["start_minute"]
+                      ."))";
+              } else {
+                  $timer2 = $filter_List["timer"]["timer2"];
+                  $tim = "(end_hour <= ".$timer2["end_hour"]
+                      ." && ("."end_hour !=".$timer2["end_hour"].
+                      " || end_minute < ".$timer2["end_minute"]
+                      ."))";
+              }
+              $qte = "if( ". $tim .", true , error())" ;
           }
-          array_push($filters  , $qte) ;
-        break;
+          array_push($filters, $qte);
+          break;
 
         case 'geofence_name':
           # code...
