@@ -249,25 +249,79 @@ final class CalculateInterval  implements CalculateIntervalInterface
         break;
         
         //? we used it to give the user the poisblite to get the unauthorized use of the vehicls for a given date range and given time range . 
+        // case 'timer':
+        //   try {
+        //       $timer1 = $filter_List["timer"]["timer1"];
+        //       $timer2 = $filter_List["timer"]["timer2"];
+
+        //       // Get local timezone offset in seconds
+        //       $timezone_offset = date('Z'); // This gets the server's timezone offset from UTC in seconds
+
+        //       // Convert hours and minutes to seconds and adjust for timezone
+        //       $R_start = ($timer1["start_hour"] * 3600 + $timer1["start_minute"] * 60) - $timezone_offset;
+        //       $R_end = ($timer2["end_hour"] * 3600 + $timer2["end_minute"] * 60) - $timezone_offset;
+
+        //       // Get the time component of the begin timestamp in UTC
+        //       $daily_offset = "floor(begin/86400)*86400";
+              
+        //       // Add timezone adjustment to the comparison
+        //       $qte = "if((begin >= " . $daily_offset . "+" . $R_start . 
+        //             ") && (begin <= " . $daily_offset . "+" . $R_end . 
+        //             "), true, error())";
+
+        //   } catch (\Throwable $th) {
+        //       if (array_key_exists("timer1", $filter_List["timer"])) {
+        //           $timer1 = $filter_List["timer"]["timer1"];
+        //           $tim = "(start_hour >= ".$timer1["start_hour"]
+        //               ." && ("."start_hour !=".$timer1["start_hour"].
+        //               " || start_minute > ".$timer1["start_minute"]
+        //               ."))";
+        //       } else {
+        //           $timer2 = $filter_List["timer"]["timer2"];
+        //           $tim = "(end_hour <= ".$timer2["end_hour"]
+        //               ." && ("."end_hour !=".$timer2["end_hour"].
+        //               " || end_minute < ".$timer2["end_minute"]
+        //               ."))";
+        //       }
+        //       $qte = "if( ". $tim .", true , error())" ;
+        //   }
+        //   array_push($filters, $qte);
+        //   break;
+
+
+        //new timer case to handle overnight
+
         case 'timer':
           try {
               $timer1 = $filter_List["timer"]["timer1"];
               $timer2 = $filter_List["timer"]["timer2"];
 
+              
+
               // Get local timezone offset in seconds
               $timezone_offset = date('Z'); // This gets the server's timezone offset from UTC in seconds
 
-              // Convert hours and minutes to seconds and adjust for timezone
-              $R_start = ($timer1["start_hour"] * 3600 + $timer1["start_minute"] * 60) - $timezone_offset;
-              $R_end = ($timer2["end_hour"] * 3600 + $timer2["end_minute"] * 60) - $timezone_offset;
+              // Convert hours and minutes to seconds
+              $R_start = $timer1["start_hour"] * 3600 + $timer1["start_minute"] * 60 - $timezone_offset;
+              $R_end = $timer2["end_hour"] * 3600 + $timer2["end_minute"] * 60 - $timezone_offset;
 
-              // Get the time component of the begin timestamp in UTC
-              $daily_offset = "floor(begin/86400)*86400";
+              // Get time component and daily offset
+              $time_component = "(begin - floor(begin/86400)*86400)";
               
-              // Add timezone adjustment to the comparison
-              $qte = "if((begin >= " . $daily_offset . "+" . $R_start . 
-                    ") && (begin <= " . $daily_offset . "+" . $R_end . 
-                    "), true, error())";
+              // Check if it's an overnight range (end time is less than start time)
+              if ($R_end < $R_start) {
+                  // For overnight ranges, we need to check if time is either:
+                  // 1. After the start time on day 1 OR
+                  // 2. Before the end time on day 2
+                  $qte = "if(" . $time_component . " >= " . $R_start . 
+                        " || " . $time_component . " <= " . $R_end . 
+                        ", true, error())";
+              } else {
+                  // Normal same-day range
+                  $qte = "if(" . $time_component . " >= " . $R_start . 
+                        " && " . $time_component . " <= " . $R_end . 
+                        ", true, error())";
+              }
 
           } catch (\Throwable $th) {
               if (array_key_exists("timer1", $filter_List["timer"])) {
@@ -286,7 +340,7 @@ final class CalculateInterval  implements CalculateIntervalInterface
               $qte = "if( ". $tim .", true , error())" ;
           }
           array_push($filters, $qte);
-          break;
+        break;
 
         case 'geofence_name':
           # code...
